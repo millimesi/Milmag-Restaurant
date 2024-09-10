@@ -1,5 +1,6 @@
 Still to be modified...
 
+(DATABASE)
 What to do to get the database running:
 1. Download postgresql on your terminal (Get this from https://www.postgresql.org/)
 2. On terminal, follow this video to create a 'user' and 'database' on postgresql terminal https://www.youtube.com/watch?v=vxu1RrR0vbw 
