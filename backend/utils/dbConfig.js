@@ -7,7 +7,7 @@ dotenv.config();
 
 const sequelize = new Sequelize(process.env.PGDATABASE, process.env.PGUSER, process.env.PGPASSWORD, {
   host: process.env.PGHOST,
-  dialect: 'postgres',
+  dialect: process.env.DIALECT,
   logging: false, // Set to true for SQL query logging
 
   pool: {
