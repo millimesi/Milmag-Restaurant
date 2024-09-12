@@ -22,3 +22,9 @@ app.use(express.urlencoded({extended: false}));
 
 // cookie parser middleware
 app.use(cookieParser());
+
+app.get('/', (req, res) => {
+  res.send('Milmag Restaurant Application');
+});
+
+export default app;
