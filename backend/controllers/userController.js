@@ -32,7 +32,9 @@ export const register = async (req, res) => {
     }
 
     // Phone Number Validation
-    const phoneRegex = /^(?:\+1\s?)?\(?(\d{3})\)?[\s.-]?(\d{3})[\s.-]?(\d{4})$/;
+    // const phoneRegex = /^(?:\+1\s?)?\(?(\d{3})\)?[\s.-]?(\d{3})[\s.-]?(\d{4})$/;
+    // const phoneRegex = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    const phoneRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/;
     if (!phoneRegex.test(phoneNumber)) {
       return res.status(400).json({ message: "Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'" });
     }
@@ -41,13 +43,12 @@ export const register = async (req, res) => {
     const schema = new PasswordValidator();
 
     schema
-      .is().min(8)  // Minimum length 8
-      .has().uppercase()                              // Must have uppercase letters
-      .has().lowercase()                              // Must have lowercase letters
-      .has().digits()                                // Must have digits
-      .has().not().spaces()                           // Should not have spaces
-      .has().symbols()                               // Must have symbols
-      .withMessage('Password must be at least 8 characters long and include uppercase letters, lowercase letters, digits, and symbols.');
+      .is().min(6) // Minimum length 6
+      .has().uppercase() // Must have uppercase letters
+      .has().lowercase() // Must have lowercase letters
+      .has().digits() // Must have digits
+      .has().not().spaces() // Should not have spaces
+      .has().symbols() // Must have symbols
 
     const validatePassword = (password) => schema.validate(password);
     if (!validatePassword(password)) {
@@ -69,10 +70,13 @@ export const register = async (req, res) => {
     });
 
     const token = jwt.sign(
-      { id: newUser.id, email, isAdmin },
+      { id: newUser.id, email, isAdmin: newUser.isAdmin },
       process.env.JWTSECRET,
       { expiresIn: '7d' }
     );
+    if (!token) {
+      res.status(400).json({message: "Error generating token"});
+    }
 
     newUser.token = token;
     await newUser.save();
@@ -87,8 +91,9 @@ export const register = async (req, res) => {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     });
 
-    res.status(200).json(newUser);
+    res.status(201).json(newUser);
   } catch (error) {
+    console.error("Registration error: ", error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -102,14 +107,14 @@ export const login = async (req, res) => {
       res.status(400).json({ message: "All fields(email and password) are compulsory!!!" });
     }
 
-    const existingUser = User.findOne({ where: { email: email.toLowerCase() } });
+    const existingUser = await User.findOne({ where: { email: email.toLowerCase() } });
     if (!existingUser) {
       res.status(400).json({ message: "Invalid email or password" }); // "User with this email does not exist"
     }
 
     if (existingUser && (await bcrypt.compare(password, existingUser.password))) {
       const token = jwt.sign(
-        { id: newUser.id, email, isAdmin },
+        { id: existingUser.id, email: existingUser.email, isAdmin: existingUser.isAdmin },
         process.env.JWTSECRET,
         { expiresIn: '7d' }
       );
@@ -129,12 +134,13 @@ export const login = async (req, res) => {
           expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       });
       res.status(200).cookie("token", token, options).json({
-          success: true, token, existingUser
+          success: true, token, user: existingUser
       });
     } else {
       res.status(400).json({ message: "Invalid email or password" }); // "Invalid password"
     }
   } catch (error) {
+    console.error('Login error: ', error);
         res.status(400).json({ error: error.message });
   }
 };

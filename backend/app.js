@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import db from './models/indexModel.js';
 import userRoutes from './routes/userRoutes.js'
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 8080;
 
 // Body Parser middleware
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 // Routes Middlewares
 app.use('/api/v1/users', userRoutes);
 
-const startServer = async () => {
+export const startServer = async () => {
   try {
     // Synchronize the models with the database
     await db.syncDb();
@@ -37,5 +37,11 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// startServer();
 
+// Only start the server if this file is run directly (useful for testing)
+if (process.env.NODE_ENV !== 'test') {
+  startServer();
+}
+
+// export default { app, startServer };

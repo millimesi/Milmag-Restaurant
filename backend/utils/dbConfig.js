@@ -8,7 +8,7 @@ dotenv.config();
 const sequelize = new Sequelize(process.env.PGDATABASE, process.env.PGUSER, process.env.PGPASSWORD, {
   host: process.env.PGHOST,
   dialect: process.env.DIALECT,
-  logging: false, // Set to true for SQL query logging
+  logging: false, // Set to console.log for SQL query logging
 
   pool: {
     max: parseInt(process.env.POOLMAX, 10), // Maximum number of connections in the pool
