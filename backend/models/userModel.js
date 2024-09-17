@@ -7,7 +7,7 @@ import sequelize from '../utils/dbConfig.js';
 const User = sequelize.define('User', {
     id: {
         type: DataTypes.UUID,
-        defaultValue: uuidv4,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,
     },
@@ -35,6 +35,7 @@ const User = sequelize.define('User', {
     isAdmin: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
     },
     token: {
         type: DataTypes.STRING,
