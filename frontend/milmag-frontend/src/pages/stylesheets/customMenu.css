@@ -1,0 +1,26 @@
+html, body, #root {
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Override Bootstrap styles */
+.navbar {
+  background-color: #000000 !important;
+  color: #FF2C00 !important;
+}
+
+.navbar-container {
+  background-color: #000000;
+  padding: 0px !important;
+  margin: 0px !important;
+  color: #FF2C00 !important;;
+}
+
+.navbarlink {
+  color: #FF2C00 !important;
+}
+
+.list-section {
+  color: #FF2C00 !important;
+}
