@@ -3,7 +3,8 @@ dotenv.config();
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import db from './models/indexModel.js';
-import userRoutes from './routes/userRoutes.js'
+import userRoutes from './routes/userRoutes.js';
+import menuRoutes from './routes/menuRoutes.js';
 
 export const app = express();
 const port = process.env.PORT || 8080;
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 
 // Routes Middlewares
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/menu', menuRoutes);
 
 export const startServer = async () => {
   try {
