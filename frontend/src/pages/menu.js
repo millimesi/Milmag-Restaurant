@@ -1,13 +1,37 @@
-import React, { useState } from 'react';
-import NavBar from '../components/navbar';
+import React, { useState, useEffect } from 'react';
+// import NavBar from '../components/navbar';
+import NavBar from '../components/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import './stylesheets/customMenu.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import {
+  getMenuItemsByCategoryType,
+  addMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
+} from '../services/menuService';
 
 const Menu = () => {
   const [isFood, setIsFood] = useState(true);
+  const [menuItems, setMenuItems] = useState([]);
   const navigate = useNavigate();
+
+  const category = isFood ? 'food' : 'drink';
+  const defaultType = isFood ? 'burgers' : 'soda';
+
+  useEffect(() => {
+    fetchMenuItems(defaultType);
+  }, [isFood]);
+
+  const fetchMenuItems = async (type) => {
+    try {
+      const data = await getMenuItemsByCategoryType(category, type);
+      setMenuItems(data);
+    } catch (error) {
+      console.error('Error fetching menu items:', error);
+    }
+  };
 
   const handleFoodClick = () => {
     setIsFood(true);

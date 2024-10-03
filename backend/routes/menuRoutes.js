@@ -8,17 +8,17 @@ import {
   getMenuByCategoryAndSubcategory,
   getMenuById
 } from '../controllers/menuController.js';
-import { authenticate } from '../middlewares/authenticate.js';
+// import { authenticate } from '../middlewares/authenticate.js';
 
 const router = express.Router();
 
 // Routes for menu
-router.post('/', authenticate, addMenu);
-router.put('/:id', authenticate, editMenu);
-router.delete('/:id', authenticate, deleteMenu);
-router.get('/', authenticate, getAllMenu);
-router.get('/category/:category', authenticate, getMenuByCategory);
-router.get('/category/:category/subcategory/:subcategory', authenticate, getMenuByCategoryAndSubcategory);
-router.get('/:id', authenticate, getMenuById);
+router.post('/', addMenu);
+router.put('/:id', editMenu);
+router.delete('/:id', deleteMenu);
+router.get('/', getAllMenu);
+router.get('/category/:category', getMenuByCategory);
+router.get('/category/:category/subcategory/:subcategory', getMenuByCategoryAndSubcategory);
+router.get('/:id', getMenuById);
 
 export default router;
