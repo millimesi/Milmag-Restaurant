@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/millimesi/Milmag-Restaurant#readme",
   "dependencies": {
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
@@ -26,6 +27,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.15",
     "password-validator": "^5.3.0",
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",

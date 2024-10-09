@@ -38,11 +38,11 @@ const User = sequelize.define('User', {
         defaultValue: false,
     },
     token: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
     resetLink: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         defaultValue: ''
     },
 }, {
