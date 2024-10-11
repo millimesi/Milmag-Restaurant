@@ -1,0 +1,42 @@
+html, body, #root {
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Override Bootstrap styles */
+.navbar {
+  background-color: #f0d7d7 !important; /* White navbar for a clean look */
+  color: #333333 !important; /* Dark text color */
+  padding: 0 !important; 
+  margin: 0 !important;
+}
+
+.container-fluid {
+  padding-left: 0 !important; /* Remove padding left on container */
+  padding-right: 0 !important; /* Remove padding right on container */
+  width: 100vw !important; /* Set full viewport width */
+  margin-left: auto !important; /* Center the container */
+  margin-right: auto !important; /* Center the container */
+}
+
+.navbar-container {
+  background-color: #f0d7d7 !important; /* Consistent light background */
+  padding: 10px !important; /* Slight padding for aesthetics */
+  color: #333333 !important; /* Dark text color */
+  width: 100% !important; 
+}
+
+.navbarlink {
+  color: #A00000 !important; /* Rich dark red for links */
+}
+
+.list-section {
+  color: #333333 !important; /* Dark text for list section */
+}
+
+.navbarlink.active {
+  font-weight: bold !important;
+  color: #C8102E !important; /* Active link color */
+  text-decoration: underline !important; /* Optional */
+}
