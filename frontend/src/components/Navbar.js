@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
-import '../pages/stylesheets/customMenu.css';
+import '../stylesheets/customMenu.css';
 
 const NavBar = () => {
   return (

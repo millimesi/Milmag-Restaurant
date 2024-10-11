@@ -1,0 +1,163 @@
+[
+  {
+    "id": 1,
+    "name": "Classic Beef Burger",
+    "description": "Juicy beef patty with lettuce, tomato, onions, and cheddar cheese on a toasted bun.",
+    "price": "$8.99",
+    "category": "Burgers"
+  },
+  {
+    "id": 2,
+    "name": "Spicy Chicken Burger",
+    "description": "Crispy fried chicken breast with spicy mayo, pickles, and coleslaw on a brioche bun.",
+    "price": "$9.49",
+    "category": "Burgers"
+  },
+  {
+    "id": 3,
+    "name": "Veggie Delight Burger",
+    "description": "Grilled veggie patty with avocado, lettuce, tomato, and vegan mayo on a multigrain bun.",
+    "price": "$7.99",
+    "category": "Burgers"
+  },
+  {
+    "id": 4,
+    "name": "BBQ Bacon Burger",
+    "description": "Beef patty topped with BBQ sauce, crispy bacon, cheddar cheese, and onion rings on a sesame seed bun.",
+    "price": "$10.99",
+    "category": "Burgers"
+  },
+  {
+    "id": 5,
+    "name": "Mushroom Swiss Burger",
+    "description": "Beef patty with sautéed mushrooms, Swiss cheese, and garlic aioli on a toasted sourdough bun.",
+    "price": "$9.99",
+    "category": "Burgers"
+  },
+  {
+    "id": 6,
+    "name": "Margherita Pizza",
+    "description": "Classic pizza topped with fresh mozzarella, tomatoes, and basil.",
+    "price": "$12.99",
+    "category": "Pizza"
+  },
+  {
+    "id": 7,
+    "name": "Pepperoni Pizza",
+    "description": "A classic pepperoni pizza with a rich tomato sauce and mozzarella cheese.",
+    "price": "$13.49",
+    "category": "Pizza"
+  },
+  {
+    "id": 8,
+    "name": "Caesar Salad",
+    "description": "Crisp romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.",
+    "price": "$7.99",
+    "category": "Salads"
+  },
+  {
+    "id": 9,
+    "name": "Fruit Salad",
+    "description": "A mix of seasonal fruits, served with a honey-lime dressing.",
+    "price": "$6.99",
+    "category": "Salads"
+  },
+  {
+    "id": 10,
+    "name": "Kids Cheeseburger",
+    "description": "A mini cheeseburger served with fries.",
+    "price": "$5.99",
+    "category": "Kids"
+  },
+  {
+    "id": 11,
+    "name": "Kids Chicken Nuggets",
+    "description": "Crispy chicken nuggets served with a side of fries.",
+    "price": "$5.49",
+    "category": "Kids"
+  },
+  {
+    "id": 12,
+    "name": "Espresso",
+    "description": "A strong coffee brewed by forcing hot water through finely-ground coffee beans.",
+    "price": "$2.99",
+    "category": "Coffee"
+  },
+  {
+    "id": 13,
+    "name": "Cappuccino",
+    "description": "Rich espresso topped with steamed milk and frothy foam.",
+    "price": "$3.49",
+    "category": "Coffee"
+  },
+  {
+    "id": 14,
+    "name": "Green Tea",
+    "description": "Refreshing green tea made from unoxidized leaves, known for its health benefits.",
+    "price": "$2.49",
+    "category": "Coffee"
+  },
+  {
+    "id": 15,
+    "name": "Cola",
+    "description": "Classic carbonated soft drink with a refreshing cola flavor.",
+    "price": "$1.99",
+    "category": "Soda"
+  },
+  {
+    "id": 16,
+    "name": "Lemonade",
+    "description": "Freshly squeezed lemonade with a hint of sweetness.",
+    "price": "$2.49",
+    "category": "Soda"
+  },
+  {
+    "id": 17,
+    "name": "Ginger Ale",
+    "description": "A refreshing, bubbly beverage with a hint of ginger.",
+    "price": "$2.19",
+    "category": "Soda"
+  },
+  {
+    "id": 18,
+    "name": "Orange Juice",
+    "description": "Freshly squeezed orange juice served cold.",
+    "price": "$3.29",
+    "category": "Juice"
+  },
+  {
+    "id": 19,
+    "name": "Tropical Fruit Smoothie",
+    "description": "A refreshing blend of mango, pineapple, and banana in a smooth beverage.",
+    "price": "$4.99",
+    "category": "Juice"
+  },
+  {
+    "id": 20,
+    "name": "Apple Juice",
+    "description": "Sweet apple juice made from freshly pressed apples.",
+    "price": "$2.99",
+    "category": "Juice"
+  },
+  {
+    "id": 21,
+    "name": "Chocolate Milkshake",
+    "description": "Creamy milkshake made with rich chocolate ice cream and topped with whipped cream.",
+    "price": "$4.99",
+    "category": "Milkshakes"
+  },
+  {
+    "id": 22,
+    "name": "Vanilla Iced Coffee",
+    "description": "Smooth iced coffee blended with vanilla ice cream for a refreshing treat.",
+    "price": "$3.99",
+    "category": "Milkshakes"
+  },
+  {
+    "id": 23,
+    "name": "Strawberry Smoothie",
+    "description": "A fruity blend of strawberries and yogurt, served chilled.",
+    "price": "$4.49",
+    "category": "Milkshakes"
+  }
+]

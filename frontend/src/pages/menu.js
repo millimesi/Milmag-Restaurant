@@ -1,46 +1,34 @@
-import React, { useState, useEffect } from 'react';
-// import NavBar from '../components/navbar';
+import React, { useState } from 'react';
 import NavBar from '../components/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
-import './stylesheets/customMenu.css';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import {
-  getMenuItemsByCategoryType,
-  addMenuItem,
-  updateMenuItem,
-  deleteMenuItem,
-} from '../services/menuService';
+import '../stylesheets/customMenu.css';
+import { Outlet, useNavigate } from 'react-router-dom'; // Link,
 
 const Menu = () => {
-  const [isFood, setIsFood] = useState(true);
-  const [menuItems, setMenuItems] = useState([]);
+  const [activeTab, setActiveTab] = useState('food'); // Track active tab (food/drinks)
+  const [activeCategory, setActiveCategory] = useState('burgers'); // Track active category
   const navigate = useNavigate();
 
-  const category = isFood ? 'food' : 'drink';
-  const defaultType = isFood ? 'burgers' : 'soda';
-
-  useEffect(() => {
-    fetchMenuItems(defaultType);
-  }, [isFood]);
-
-  const fetchMenuItems = async (type) => {
-    try {
-      const data = await getMenuItemsByCategoryType(category, type);
-      setMenuItems(data);
-    } catch (error) {
-      console.error('Error fetching menu items:', error);
-    }
-  };
-
   const handleFoodClick = () => {
-    setIsFood(true);
+    setActiveTab('food');
+    setActiveCategory('burgers'); // Set default active category for food
     navigate('/food/burgers');
   };
 
   const handleDrinksClick = () => {
-    setIsFood(false);
+    setActiveTab('drinks');
+    setActiveCategory('soda'); // Set default active category for drinks
     navigate('/drinks/soda');
+  };
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+    if (activeTab === 'food') {
+      navigate(`/food/${category}`);
+    } else {
+      navigate(`/drinks/${category}`);
+    }
   };
 
   return (
@@ -56,34 +44,62 @@ const Menu = () => {
 
           <div className="text-center mb-0 mt-0">
             <h5 className='mb-0 mt-0'>Fresh and healthy food choices</h5>
-            <Nav className="justify-content-center" variant="" defaultActiveKey="/food/burgers">
+            <Nav className="justify-content-center" variant="">
               <Nav.Item>
-                {/* <Nav.Link as={Link} to="/food/burgers">FOOD</Nav.Link> */}
-                <Nav.Link className="navbarlink" onClick={handleFoodClick}>FOOD</Nav.Link>
+                <Nav.Link 
+                  className={`navbarlink ${activeTab === 'food' ? 'active' : ''}`} 
+                  onClick={handleFoodClick}
+                >
+                  FOOD
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                {/* <Nav.Link as={Link} to="/food/burgers">DRINKS</Nav.Link> */}
-                <Nav.Link className="navbarlink" onClick={handleDrinksClick}>DRINKS</Nav.Link>
+                <Nav.Link 
+                  className={`navbarlink ${activeTab === 'drinks' ? 'active' : ''}`} 
+                  onClick={handleDrinksClick}
+                >
+                  DRINKS
+                </Nav.Link>
               </Nav.Item>
             </Nav>
           </div>
 
           <div className="menu-section">
             {/* Conditional Rendering Based on FOOD or DRINKS */}
-            {isFood ? (
+            {activeTab === 'food' ? (
               <div className="food-section">
                 <Nav className="justify-content-right">
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/food/burgers">Burgers</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'burgers' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('burgers')}
+                    >
+                      Burgers
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/food/pizza">Pizza</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'pizza' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('pizza')}
+                    >
+                      Pizza
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/food/salad">Salad</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'salads' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('salads')}
+                    >
+                      Salad
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/food/kids">Kids</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'kids' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('kids')}
+                    >
+                      Kids
+                    </Nav.Link>
                   </Nav.Item>
                 </Nav>
               </div>
@@ -91,16 +107,36 @@ const Menu = () => {
               <div className="drink-section">
                 <Nav className="justify-content-left">
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/drinks/soda">Soft Drinks & Sodas</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'soda' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('soda')}
+                    >
+                      Soft Drinks & Sodas
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/drinks/juice">Juices & Smoothies</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'juice' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('juice')}
+                    >
+                      Juices & Smoothies
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/drinks/coffee">Tea & Coffee</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'coffee' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('coffee')}
+                    >
+                      Tea & Coffee
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="navbarlink" as={Link} to="/drinks/milkshake">Milkshakes & Iced Beverages</Nav.Link>
+                    <Nav.Link 
+                      className={`navbarlink ${activeCategory === 'milkshakes' ? 'active' : ''}`} 
+                      onClick={() => handleCategoryClick('milkshakes')}
+                    >
+                      Milkshakes & Iced Beverages
+                    </Nav.Link>
                   </Nav.Item>
                 </Nav>
               </div>
