@@ -1,0 +1,16 @@
+.navbarlink {
+  color: #f9f9f9 !important;
+  text-decoration: none !important;
+  padding: 5px 5px !important;
+}
+
+.navbarlinkActive {
+  font-weight: bold !important;
+  color: #f9f9f9 !important;
+  text-decoration: none !important;
+  padding: 15px 5px !important;
+}
+
+.navbar-container {
+  background-color: rgb(128, 0, 0) !important;
+}

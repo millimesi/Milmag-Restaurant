@@ -1,56 +1,55 @@
 .card {
-  background-color: #FFFFFF !important; /* White background for cards */
-  color: #333333 !important; /* Dark text color for readability */
-  border: 1px solid #E0E0E0 !important; /* Light border for definition */
+  background-color: rgb(255, 255, 255) !important;
+  color: #333333 !important;
+  border: 1px solid #E0E0E0 !important;
   transition: transform 0.2s !important;
-  box-shadow: 0.2s !important; /* Smooth hover effect */
-  border-radius: 8px !important; /* Rounded corners */
+  box-shadow: 0.2s !important;
+  border-radius: 8px !important;
 }
 
 .card:hover {
-  transform: translateY(-5px) !important; /* Lift effect on hover */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* Subtle shadow on hover */
+  transform: translateY(-5px) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
 }
 
 .card-title {
-  font-size: 1.5rem !important; /* Adjust font size for title */
-  font-weight: bold !important; /* Make title bold */
-  color: #A00000 !important; /* Rich dark red for title color */
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  color: #A00000 !important;
 }
 
 .card-text {
-  font-size: 1rem !important; /* Adjust font size for description */
-  color: #666666 !important; /* Gray for better readability */
+  font-size: 1rem !important;
+  color: #000000 !important;
 }
 
 .text-primary {
-  color: #A00000 !important; /* Price color */
+  color: #A00000 !important;
+  font-size: 17px;
 }
 
 .btn-primary {
-  background-color: #A00000 !important; /* Button background */
-  border: none !important; /* Remove border */
-  color: #FFFFFF !important; /* White text for the button */
+  background-color: #A00000 !important;
+  border: none !important;
+  color: #FFFFFF !important;
   transition: background-color 0.2s !important;
-  transform: 0.2s !important; /* Smooth hover transition */
-  border-radius: 4px !important; /* Slight rounding for buttons */
+  transform: 0.2s !important;
+  border-radius: 4px !important;
 }
 
 .btn-primary:hover {
-  background-color: #C8102E !important; /* Lighter shade on hover */
-  transform: translateY(-2px) !important; /* Lift effect on hover */
+  background-color: #C8102E !important;
+  transform: translateY(-2px) !important;
 }
 
 .d-grid {
-  margin-top: auto !important; /* Push the button to the bottom of the card */
+  margin-top: auto !important;
 }
 
 .text-primary {
-  color: #A00000 !important; /* Rich dark red for price color */
+  color: rgb(128, 0, 0) !important;
 }
 
-/* Additional specificity for h4 elements with this class */
 h4.text-primary {
-  color: #A00000 !important; /* Ensure the color is applied specifically to h4 elements */
+  color: rgb(128, 0, 0) !important;
 }
-

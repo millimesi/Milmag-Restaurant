@@ -2,41 +2,48 @@ html, body, #root {
   height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
+  background-color: rgb(249, 241, 241) !important;
 }
 
-/* Override Bootstrap styles */
-.navbar {
-  background-color: #f0d7d7 !important; /* White navbar for a clean look */
-  color: #333333 !important; /* Dark text color */
+.menubar {
+  background-color: rgb(128, 0, 0) !important;
+  color: #333333 !important;
   padding: 0 !important; 
-  margin: 0 !important;
 }
 
 .container-fluid {
-  padding-left: 0 !important; /* Remove padding left on container */
-  padding-right: 0 !important; /* Remove padding right on container */
-  width: 100vw !important; /* Set full viewport width */
-  margin-left: auto !important; /* Center the container */
-  margin-right: auto !important; /* Center the container */
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  width: 100vw !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
-.navbar-container {
-  background-color: #f0d7d7 !important; /* Consistent light background */
-  padding: 10px !important; /* Slight padding for aesthetics */
-  color: #333333 !important; /* Dark text color */
+.menubar-container {
+  background-color: rgb(128, 0, 0) !important;
+  color: #f9f9f9 !important;
   width: 100% !important; 
 }
 
-.navbarlink {
-  color: #A00000 !important; /* Rich dark red for links */
+.menubarlink {
+  color: #f9f9f9 !important;
+  text-decoration: none !important;
+  /* transition: font-weight 0.1s; */
+  padding: 5px 5px !important;
+}
+
+.menubarlink.active {
+  font-weight: bold !important;
+  padding: 15px 15px !important;
 }
 
 .list-section {
-  color: #333333 !important; /* Dark text for list section */
+  color: #333333 !important;
 }
 
-.navbarlink.active {
-  font-weight: bold !important;
-  color: #C8102E !important; /* Active link color */
-  text-decoration: underline !important; /* Optional */
+.sub {
+  font-size: 15px;
+  margin-top: 0;
+  margin-bottom: 0;
+
 }
