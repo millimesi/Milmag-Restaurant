@@ -1,6 +1,5 @@
-// src/components/MenuCategory.js
 import React from 'react';
-import SingleItem from './SingleItem'; // This will be your generic item component
+import SingleItem from './SingleMenu';
 
 const MenuCategory = ({ title, items }) => {
   return (

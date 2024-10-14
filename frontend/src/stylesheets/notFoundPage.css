@@ -1,0 +1,17 @@
+.iconColor {
+    color: rgb(128, 0, 0) !important;
+    font-size: 6rem;
+}
+
+.textColor {
+    color: rgb(128, 0, 0) !important;
+}
+
+.btn-primary {
+  background-color: #A00000 !important;
+  border: none !important;
+  color: #FFFFFF !important;
+  transition: background-color 0.2s !important;
+  transform: 0.2s !important;
+  border-radius: 4px !important;
+}

@@ -1,8 +1,9 @@
-// src/components/SingleItem.js
 import React from 'react';
-import '../stylesheets/customSingleItem.css'
+import '../stylesheets/customSingleItem.css';
+import { NavLink } from 'react-router-dom';
 
-const SingleItem = ({ item }) => {
+const SingleMenu = ({ item }) => {
+  
   return (
     <div className='col-md-4 mb-4'>
       <div className='card h-100 shadow-sm'>
@@ -11,9 +12,9 @@ const SingleItem = ({ item }) => {
           <p className='card-text'>{item.description}</p>
           <h4 className='text-primary mb-3'>{item.price}</h4>
           <div className='d-grid'>
-            <a href={`/${item.category.toLowerCase()}/${item.id}`} className='btn btn-primary'>
+            <NavLink to={`/${item.category === 'food' ? 'food' : 'drinks'}/${item.category.toLowerCase()}/${item.id}`} className='btn btn-primary'>
               Read More
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>
@@ -21,4 +22,4 @@ const SingleItem = ({ item }) => {
   );
 };
 
-export default SingleItem;
+export default SingleMenu;
