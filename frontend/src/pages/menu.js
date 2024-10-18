@@ -19,22 +19,22 @@ const Menu = () => {
         <div className="menubar-container">
           <NavBar />
           <div className="text-center mb-0 mt-0">
-            <h1 className='mb-0 mt-0'>Our Menu</h1>
+            <h1 className='mb-0 mt-0'>Menu Selections</h1>
           </div>
 
           <div className="text-center mb-0 mt-0">
-            <h5 className='sub'>Fresh and healthy food choices</h5>
+            <h5 className='sub'>A Commitment to Freshness and Quality in Every Dish</h5>
             <div className="d-flex justify-content-center">
               <NavLink 
                 className={`p-3 menubarlink ${activeTab === 'food' ? 'active' : ''}`} 
-                to="/food/burgers" 
+                to="/food/burger"
                 onClick={() => handleTabClick('food')}
               >
                 FOOD
               </NavLink>
               <NavLink 
                 className={`p-3 menubarlink ${activeTab === 'drinks' ? 'active' : ''}`} 
-                to="/drinks/soda" 
+                to="/drinks/softdrinks" 
                 onClick={() => handleTabClick('drinks')}
               >
                 DRINKS
@@ -47,8 +47,8 @@ const Menu = () => {
             {activeTab === 'food' ? (
               <div className="d-flex">
                 <NavLink 
-                  className={`p-3 menubarlink ${activeTab === 'burgers' ? 'active' : ''}`} 
-                  to="/food/burgers"
+                  className={`p-3 menubarlink ${activeTab === 'burger' ? 'active' : ''}`}
+                  to="/food/burger"
                   onClick={() => setActiveTab('food')}
                 >
                   BURGER
@@ -61,8 +61,8 @@ const Menu = () => {
                   PIZZA
                 </NavLink>
                 <NavLink 
-                  className={`p-3 menubarlink ${activeTab === 'salads' ? 'active' : ''}`} 
-                  to="/food/salads"
+                  className={`p-3 menubarlink ${activeTab === 'salad' ? 'active' : ''}`} 
+                  to="/food/salad"
                   onClick={() => setActiveTab('food')}
                 >
                   SALAD
@@ -78,8 +78,8 @@ const Menu = () => {
             ) : (
               <div className="d-flex">
                 <NavLink 
-                  className={`p-3 menubarlink ${activeTab === 'soda' ? 'active' : ''}`} 
-                  to="/drinks/soda"
+                  className={`p-3 menubarlink ${activeTab === 'softdrinks' ? 'active' : ''}`} 
+                  to="/drinks/softdrinks"
                   onClick={() => setActiveTab('drinks')}
                 >
                   Soft Drinks & Sodas
