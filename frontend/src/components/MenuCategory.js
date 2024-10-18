@@ -1,5 +1,6 @@
 import React from 'react';
-import SingleItem from './SingleMenu';
+// import SingleItem from './SingleMenu';
+import SingleMenu from './SingleMenu';
 
 const MenuCategory = ({ title, items }) => {
   return (
@@ -8,7 +9,7 @@ const MenuCategory = ({ title, items }) => {
         <h2 className='text-center text-primary mb-4'>{title}</h2>
         <div className='row'>
           {items.map((item) => (
-            <SingleItem key={item.id} item={item} />
+            <SingleMenu key={item.id} item={item} />
           ))}
         </div>
       </div>

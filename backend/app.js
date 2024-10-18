@@ -8,11 +8,11 @@ import userRoutes from './routes/userRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 
 export const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 
 // CORS middleware
 app.use(cors({
-  origin: 'http://localhost:${process.env.FRONTENDPORT}', // Allow requests from this origin
+  origin: `http://localhost:${process.env.FRONTENDPORT}`, // Allow requests from this origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 }));

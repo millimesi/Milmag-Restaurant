@@ -3,8 +3,10 @@ import Menu from "../models/menuModel.js";
 
 // Category
 const categoryArray = ['food', 'drinks'];
-const foodSubCategory = ['burger', 'pizza', 'salad', 'kids'];
-const drinksubCategory = ['softdrinks', 'juice', 'coffee', 'milkshakes'];
+const validSubcategories = {
+  food: ['burger', 'pizza', 'salad', 'kids'],
+  drinks: ['softdrinks', 'juice', 'coffee', 'milkshakes']
+};
 
 // Add a new menu item
 export const addMenu = async (req, res) => {
@@ -20,11 +22,11 @@ export const addMenu = async (req, res) => {
     }
 
     if (category === 'food') {
-      if (!foodSubCategory.includes(subcategory)) {
+      if (!validSubcategories.food.includes(subcategory.toLowerCase())) {
         return res.status(404).json({ message: 'Subcategory for food is either burger, pizza, salad or kids' });
       }
     } else if (category === 'drinks') {
-      if (!drinksubCategory.includes(subcategory)) {
+        if (!validSubcategories.drinks.includes(subcategory.toLowerCase())) {
         return res.status(404).json({ message: 'Subcategory for drinks is either softdrinks, juice, coffee, or milkshakes' });
       }
     }
@@ -69,6 +71,7 @@ export const editMenu = async (req, res) => {
 
     // Category validation
     let categoryToCheck = category || menuItem.category;
+    console.log(categoryToCheck);
     if (category && !categoryArray.includes(category)) {
       return res.status(404).json({ message: 'Category is either food or drinks' });
     }
@@ -76,15 +79,14 @@ export const editMenu = async (req, res) => {
     // Subcategory validation
     if (subcategory) {
       if (categoryToCheck === 'food') {
-        if (!foodSubCategory.includes(subcategory)) {
+        if (!validSubcategories.food.includes(subcategory.toLowerCase())) {
           return res.status(404).json({ message: 'Subcategory for food is either burger, pizza, salad or kids' });
         }
       } else if (categoryToCheck === 'drinks') {
-        if (!drinksubCategory.includes(subcategory)) {
-          return res.status(404).json({ message: 'Subcategory for drinks is either soft drinks, juice, coffee, or milkshakes' });
+        if (!validSubcategories.drinks.includes(subcategory.toLowerCase()))
+          return res.status(404).json({ message: 'Subcategory for drinks is either softdrinks, juice, coffee, or milkshakes' });
         }
       }
-    }
 
     // Name Validation
     if (name) {
@@ -146,6 +148,11 @@ export const getAllMenu = async (req, res) => {
 export const getMenuByCategory = async (req, res) => {
   const { category } = req.params;
 
+  // Validates category
+  if (!categoryArray.includes(category)) {
+    return res.status(400).json({ message: 'Invalid category' });
+  }
+
   try {
     const menuItems = await Menu.findAll({ where: { category } });
     if (menuItems.length === 0) {
@@ -158,11 +165,18 @@ export const getMenuByCategory = async (req, res) => {
 };
 
 // Get menu items by category and subcategory
-export const getMenuByCategoryAndSubcategory = async (req, res) => {
-  const { category, subcategory } = req.params;
+export const getMenuBySubcategory = async (req, res) => {
+  // const { category, subcategory } = req.params;
+  const { subcategory } = req.params;
+
+  // Validate subcategory
+  if (!validSubcategories.food.includes(subcategory.toLowerCase()) && !validSubcategories.drinks.includes(subcategory.toLowerCase())) {
+    return res.status(400).json({ message: 'Invalid subcategory' });
+  }
 
   try {
-    const menuItems = await Menu.findAll({ where: { category, subcategory } });
+    // const menuItems = await Menu.findAll({ where: { category, subcategory } });
+    const menuItems = await Menu.findAll({ where: { subcategory: subcategory.toLowerCase() } });
     if (menuItems.length === 0) {
       return res.status(404).json({ message: 'No menu items found for this category and subcategory' });
     }
@@ -178,6 +192,7 @@ export const getMenuById = async (req, res) => {
 
   try {
     const menuItem = await Menu.findByPk(id);
+    console.log("MenuItem", menuItem);
     if (!menuItem) {
       return res.status(404).json({ message: 'Menu item not found' });
     }
