@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.restaurant-desc {
+  height: 100%;
+}
+.restaurant-desc h1 {
+  text-align: center;
+}
+
+.restaurant-desc p {
+  text-align: center;
+}
+
+.restaurant-desc hr {
+  margin: 2.5% auto;
+  border: 1.5px solid black;
+  width: 70%;
+}
+
+.main-container {
+  height: 50vh;
+}
+
+.dining-hall {
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 20px;
+}
+
+.dining-hall p {
+  width: 30%;
+  text-align: left;
+  align-content: center;
+}
+
+.dining-hall img {
+  height: 100%;
+  object-fit: cover;
+  margin-left: 5%;
+  transform: scale(1.5, 1.2);
+  transform: s;
+  transform-origin: left;
+  border-radius: 8px;
+}

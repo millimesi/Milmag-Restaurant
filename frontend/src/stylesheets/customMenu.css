@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -8,7 +10,7 @@ html, body, #root {
 .menubar {
   background-color: rgb(128, 0, 0) !important;
   color: #333333 !important;
-  padding: 0 !important; 
+  padding: 0 !important;
 }
 
 .container-fluid {
@@ -22,7 +24,7 @@ html, body, #root {
 .menubar-container {
   background-color: rgb(128, 0, 0) !important;
   color: #f9f9f9 !important;
-  width: 100% !important; 
+  width: 100% !important;
 }
 
 .menubarlink {
@@ -45,5 +47,4 @@ html, body, #root {
   font-size: 15px;
   margin-top: 0;
   margin-bottom: 0;
-
 }
