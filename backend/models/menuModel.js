@@ -34,6 +34,14 @@ const Menu = sequelize.define('Menu', {
   imagePath: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  fulldescription: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  dietary_info: {
+    type: DataTypes.TEXT,
+    allowNull: false,
   }
 }, {
     timestamps: true, // This enables automatic createdAt and updatedAt

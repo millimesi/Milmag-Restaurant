@@ -19,9 +19,7 @@ const AppRoutes = createBrowserRouter(
       <Route path="/drinks" element={<Menu />} >
         <Route index element={<Navigate to="/drinks/softdrinks" replace />} />
         <Route path=":subcategory" element={<MenuCategoryDynamic />} />
-        {/* <Route path=":subcategory/:id" element={<MenuCategoryDynamic />}/> */}
         <Route path=":subcategory/:id" element={<MenuDetails />} loader={menuLoader}/>
-        {/* <Route path="/:id" element={<MenuDetails />}/> */}
       </Route>
     </>
   )
