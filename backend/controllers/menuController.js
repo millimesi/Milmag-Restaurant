@@ -8,13 +8,17 @@ const validSubcategories = {
   drinks: ['softdrinks', 'juice', 'coffee', 'milkshakes']
 };
 
+// Image Path Validation
+const validImagePathPattern = /^[a-zA-Z0-9]+$/;
+
 // Add a new menu item
 export const addMenu = async (req, res) => {
   try {
-    const { category, subcategory, name, description, price, imagePath } = req.body;
+    const { category, subcategory, name, description, price, imagePath, fulldescription, dietary_info } = req.body;
+    // console.log("Request body: ", req.body);
 
-    if (!(category && subcategory && name && description && price && imagePath)) {
-      return res.status(400).json({ message: "All fields(category, subcategory, name, description, price, imagePath) are compulsory"});
+    if (!(category && subcategory && name && description && price && imagePath && fulldescription && dietary_info)) {
+      return res.status(400).json({ message: "All fields(category, subcategory, name, description, price, imagePath, fulldescription, dietary_info) are compulsory"});
     }
 
     if (!categoryArray.includes(category)) {
@@ -40,10 +44,21 @@ export const addMenu = async (req, res) => {
     }
 
     if (isNaN(price) || price <= 0) {
-      return res.status(404).json({ message: 'Price must be a valid number greater than 0' });
+      return res.status(400).json({ message: 'Price must be a valid number greater than 0' });
     }
 
     // Validation for image paths
+    if (!validImagePathPattern.test(imagePath)) {
+      return res.status(400).json({ message: 'Image path must contain only alphanumeric characters' });
+    }
+
+    if (fulldescription.length < 10 || fulldescription.length > 500) {
+      return res.status(400).json({ message: 'Full description must be between 10 and 500 characters' });
+    }
+
+    if (dietary_info.length < 3 || dietary_info.length > 300) {
+      return res.status(400).json({ message: 'Dietary information must be between 3 and 300 characters' });
+    }
 
     // Check if the menu item name is unique
     const existingMenuItem = await Menu.findOne({ where: { name } });
@@ -51,9 +66,10 @@ export const addMenu = async (req, res) => {
       return res.status(400).json({ message: 'A menu item with this name already exists' });
     }
 
-    const menuItem = await Menu.create({ category, subcategory, name, description, price, imagePath });
+    const menuItem = await Menu.create({ category, subcategory, name, description, price, imagePath, fulldescription, dietary_info });
     res.status(201).json({message: 'Menu item added successfully', menuItem});
   } catch (error) {
+    console.log("Failed to add menu item", error);
     res.status(500).json({ message: 'Failed to add menu item', error: error.message });
   }
 };
@@ -61,7 +77,7 @@ export const addMenu = async (req, res) => {
 // Edit an existing menu item
 export const editMenu = async (req, res) => {
   const { id } = req.params;
-  const { category, subcategory, name, description, price, imagePath } = req.body;
+  const { category, subcategory, name, description, price, imagePath, fulldescription, dietary_info } = req.body;
 
   try {
     const menuItem = await Menu.findByPk(id);
@@ -109,8 +125,29 @@ export const editMenu = async (req, res) => {
       }
     }
 
+    // Image Path
+    if (imagePath) {
+      if (!(validImagePathPattern.test(imagePath))) {
+        return res.status(400).json({ message: 'Image path must contain only alphanumeric characters' });
+      }
+    }
+
+    // Full Description
+    if (fulldescription) {
+      if (fulldescription.length < 10 || fulldescription.length > 500) {
+        return res.status(400).json({ message: 'Full description must be between 10 and 500 characters' });
+      }
+    }
+
+    // Dietary_info
+    if (dietary_info) {
+      if (dietary_info.length < 3 || dietary_info.length > 300) {
+        return res.status(400).json({ message: 'Dietary information must be between 3 and 300 characters' });
+      }
+    }
+
     // Update the menu item
-    await menuItem.update({ category, subcategory, name, description, price, imagePath });
+    await menuItem.update({ category, subcategory, name, description, price, imagePath, fulldescription, dietary_info });
     res.status(200).json({message: 'Menu item edited successfully', menuItem});
   } catch (error) {
     res.status(500).json({ message: 'Failed to edit menu item', error: error.message });

@@ -13,12 +13,28 @@ const MenuCategoryDynamic = () => {
 
   useEffect(() => {
     const fetchMenu = async() => {
+      setLoading(true);
       try {
-        // const response = await axios.get('/api/v1/menu/'); // fetching all the menu. It uses proxy in package.json.
-        const response = await axios.get(`/api/v1/menu/subcategory/${subcategory}`)
-        setMenu(response.data.menuItems);
+        const response = await axios.get(`/api/v1/menu/subcategory/${subcategory}`); // fetching menu based on subcategory. It uses proxy in package.json.
+
+        // Check if the response data is as expected
+        if (response.data.menuItems.length === 0) {
+          setError('No items found in this subcategory.');
+          setMenu([]); // Set menu to empty array
+        } else {
+          // console.log("Response Data MenuItems: ", response.data.menuItems);
+          setMenu(response.data.menuItems);
+          setError(null); // Clear error if data is present
+        }
       } catch (error) {
-        setError('Error fetching data');
+        console.error('Fetch error:', error);
+        if (error.response && error.response.status === 404) {
+          // Handle 404 and other errors
+          setError(`No items found for this subcategory ${subcategory}.`); // Custom message for 404
+          setMenu([]); // Set menu to empty array
+        } else {
+          setError(`Error fetching data in subcategory: ${error.message}`);
+        }
       } finally {
         setLoading(false);
       }
@@ -27,7 +43,7 @@ const MenuCategoryDynamic = () => {
     if (subcategory) {
       fetchMenu();
     }
-  }, [subcategory]);
+  }, [subcategory, id]);
 
   // Display a loading state while data is being fetched
   if (loading) {
