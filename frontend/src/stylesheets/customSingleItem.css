@@ -16,10 +16,11 @@
   font-size: 1.5rem !important;
   font-weight: bold !important;
   color: #A00000 !important;
+  
 }
 
 .card-text {
-  font-size: 1rem !important;
+  font-size: 18px !important;
   color: #000000 !important;
 }
 
@@ -50,6 +51,37 @@
   color: rgb(128, 0, 0) !important;
 }
 
-h4.text-primary {
+.h4.text-primary {
   color: rgb(128, 0, 0) !important;
+}
+
+.plusMinus {
+  font-size: 1.5rem !important; /* Adjusts size of the icons */
+  color:  rgb(1, 1, 1) !important; /* Default color */
+  transition: transform 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+  border-radius: 8px !important;
+}
+
+.plusMinus:hover {
+  transform: translateY(-2px) !important; /* Slight lift on hover */
+  color: rgb(128, 0, 0) !important; /* Red color on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* Shadow effect */
+}
+
+.shoppingCart {
+  color:  rgb(128, 0, 0) !important;
+  font-size: 1.5rem !important;
+}
+
+.shoppingCart:hover {
+  color: #C8102E !important;
+  transform: translateY(-2px) !important;
+  /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; */
+}
+
+.price {
+  font-size: 20px !important;
+  color:  rgb(128, 0, 0) !important;
+  display: inline-flex !important; /* Ensures both icon and text align */
+  align-items: center !important;  /* Vertically centers icon and text */
 }
