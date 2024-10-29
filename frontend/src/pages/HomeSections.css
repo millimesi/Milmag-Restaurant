@@ -1,11 +1,18 @@
 .container {
-  margin-left: auto;
-  width: 100vw;
-  position: relative;
+  margin-left: auto ;
+  margin-right: auto ;
+  width: 100vw !important ;
+  position: relative ;
+  /* padding-left: 0 ;
+  padding-right: 0 ; */
 }
+
 .container .slide {
-  height: 80vh; /* or any specific height */
-  position: relative; /* to keep .item absolute positioning within this container */
+  height: 80vh ; /* or any specific height */
+  position: relative ; /* to keep .item absolute positioning within this container */
+  padding-left: 0 ;
+  padding-right: 0 ;
+  /* width: 100vw ; */
 }
 
 /* .container .slide .color-ajdsutment {
@@ -16,55 +23,55 @@
   background-color: rgba(56, 0, 0, 0.3);
 } */
 .container .slide .item {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 0%;
-  display: inline-block;
-  filter: brightness(0.9);
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
+  width: 100% ;
+  height: 100% ;
+  position: absolute ;
+  top: 0 ;
+  background-repeat: no-repeat ;
+  background-size: cover ;
+  background-position: 50% 0% ;
+  display: inline-block ;
+  filter: brightness(0.9) ;
+  border-bottom-left-radius: 40px ;
+  border-bottom-right-radius: 40px ;
 }
 
 .item .content {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  width: 30%;
-  text-align: left;
-  color: rgb(255, 255, 255);
-  transform: translate(0, -50%);
-  background-color: rgba(78, 0, 0, 0.25);
-  box-shadow: 0 0 30px rgba(78, 0, 0, 0.5);
-  padding: 10px;
+  position: absolute ;
+  top: 50% ;
+  left: 10% ;
+  width: 30% ;
+  text-align: left ;
+  color: rgb(255, 255, 255) ;
+  transform: translate(0, -50%) ;
+  background-color: rgba(78, 0, 0, 0.25) ;
+  box-shadow: 0 0 30px rgba(78, 0, 0, 0.5) ;
+  /* padding: 10px ; */
   /* display: none; */
 }
 .content {
-  transition: opacity 0.5s ease; /* Add this line */
+  transition: opacity 0.5s ease ; /* Add this line */
 }
 
 .content .name {
-  font-size: 40px;
-  text-transform: uppercase;
-  font-weight: bold;
-  opacity: 0;
-  animation: animate 1s ease-in-out 1 both;
+  font-size: 40px ;
+  text-transform: uppercase ;
+  font-weight: bold ;
+  opacity: 0 ;
+  animation: animate 1s ease-in-out 1 both ;
 }
 
 .content .des {
   margin-top: 10px;
-  margin-bottom: 20px;
-  font-size: 14pt;
-  opacity: 0;
-  animation: animate 1s ease-in-out 0.3s 1 both;
+  margin-bottom: 20px ;
+  font-size: 14pt ;
+  opacity: 0 ;
+  animation: animate 1s ease-in-out 0.3s 1 both ;
 }
 
 .content button {
-  padding: 10px 20px;
-  cursor: pointer;
+  padding: 10px 20px  ;
+  cursor: pointer ;
   border: none;
   border-radius: 5px;
   transition: background-color 0.3s ease, color 0.3s ease;

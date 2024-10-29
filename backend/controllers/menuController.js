@@ -69,7 +69,7 @@ export const addMenu = async (req, res) => {
     const menuItem = await Menu.create({ category, subcategory, name, description, price, imagePath, fulldescription, dietary_info });
     res.status(201).json({message: 'Menu item added successfully', menuItem});
   } catch (error) {
-    console.log("Failed to add menu item", error);
+    console.error("Failed to add menu item", error);
     res.status(500).json({ message: 'Failed to add menu item', error: error.message });
   }
 };
@@ -87,7 +87,7 @@ export const editMenu = async (req, res) => {
 
     // Category validation
     let categoryToCheck = category || menuItem.category;
-    console.log(categoryToCheck);
+    // console.log(categoryToCheck);
     if (category && !categoryArray.includes(category)) {
       return res.status(404).json({ message: 'Category is either food or drinks' });
     }
@@ -229,7 +229,7 @@ export const getMenuById = async (req, res) => {
 
   try {
     const menuItem = await Menu.findByPk(id);
-    console.log("MenuItem", menuItem);
+    // console.log("MenuItem", menuItem);
     if (!menuItem) {
       return res.status(404).json({ message: 'Menu item not found' });
     }

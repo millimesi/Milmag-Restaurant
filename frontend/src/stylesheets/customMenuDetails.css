@@ -30,16 +30,50 @@
 
 .price-wrapper {
   color: rgb(128, 0, 0) !important;
-  font-size: 27px !important;
-  display: inline-flex;
-  align-items: center;
+  font-size: 15px !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 
 .dollar {
-  margin-right: 5px; /* Adjust space between icon and price */
+  margin-right: 3px; /* Adjust space between icon and price */
 }
 
 .menuName {
     color: rgb(128, 0, 0) !important;
-    
+}
+
+.minusPlus {
+  font-size: 2.5rem !important; /* Adjusts size of the icons */
+  color:  rgb(128, 0, 0) !important; /* Default color */
+  transition: transform 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+  border-radius: 8px !important;
+}
+
+.minusPlus:hover {
+  transform: translateY(-2px) !important; /* Slight lift on hover */
+  color:  #C8102E !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* Shadow effect */
+}
+
+.quantityValue {
+  font-size: 25px !important;
+}
+
+.quantityButton {
+  background-color: rgb(254, 254, 254);
+  color: rgb(128, 0, 0) !important;
+  padding: 12px; /* Increase padding for wider buttons */
+  width: 280px;
+  border: solid;
+  border-color: rgb(128, 0, 0) !important;
+  border-radius: 8px; /* Add rounded corners */
+  font-size: 16px; /* Adjust font size */
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
+  text-align: center;
+}
+
+.quantityButton:hover {
+  background-color: rgb(128, 0, 0) !important;
+  color: rgb(254, 254, 254) !important;
 }

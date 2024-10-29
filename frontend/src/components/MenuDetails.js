@@ -1,17 +1,24 @@
-import React from 'react'; // { useEffect, useState }
-import { NavLink, useLoaderData } from 'react-router-dom'; // useParams,
+import React, { useState } from 'react'; // { useEffect, useState }
+import { useLoaderData, useNavigate, useLocation } from 'react-router-dom'; // useParams,
 import axios from 'axios';
 // import Spinner from './Spinner';
-import { FaArrowLeft, FaDollarSign } from 'react-icons/fa';
+import { FaArrowLeft, FaDollarSign, FaPlusCircle, FaMinusCircle, } from 'react-icons/fa';
 import '../stylesheets/customMenuDetails.css';
 
 const MenuDetails = () => {
-  // const { id } = useParams(); 
   const menu = useLoaderData();
-  // console.log("Menu", menu);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [quantity, setquantity] = useState(1);
+
   if (!menu) {
     return <div>Menu item not found.</div>;
   }
+
+  const incrementQuantity = () => setquantity(quantity + 1);
+  const decrementQuantity = () => {
+    if (quantity > 1) setquantity(quantity - 1);
+  };
 
   // Check if menu.image is defined and construct the image path
   // menu.imagePath ? require(`../assets/images/${menu.imagePath}.jpeg`) : null;
@@ -26,35 +33,57 @@ const MenuDetails = () => {
 
   const menuImagePath = getImagePath(menu.imagePath);
 
+  // Navigate back to the previous menu category if available, otherwise go to /food
+  const handleBackClick = () => {
+    const previousCategory = location.state?.from || "/food";
+    // console.log(previousCategory);
+    // console.log(location.state?.from);
+    navigate(previousCategory);
+  };
+
   return (
     <div className="container icon-container">
       <section className="row">
         <div className="col-12 back-button-wrapper">
-          <NavLink to="/food" className="back-to-menu">
+          <button onClick={handleBackClick} className="btn btn-outline-light back-to-menu">
             <FaArrowLeft className="icon-left" /> Back to Menu
-          </NavLink>
+          </button>
         </div>
       </section>
-      <h1 className='mb-3 menuName'>{menu.name}</h1>
+      <h1 className='mb-5 text-center menuName'>{menu.name}</h1>
       <div className='row'>
-        <div className='col-4'>
-          {/* <img src={require(`../assets/images/${menu.imagePath}.jpeg`)} class="rounded" alt="Classic Beef Burger" width="450" height="400"/> */}
-          {menuImagePath ? (
-            <img src={menuImagePath} className="rounded" alt={menu.name} width="450" height="400"/>
-          ) : (
-            <div>No image available</div> // Placeholder if image is not available
-          )}
+        <div className='col-sm-6 mb-5'>
+            {/* <img src={require(`../assets/images/${menu.imagePath}.jpeg`)} class="rounded" alt="Classic Beef Burger" width="450" height="400"/> */}
+            {menuImagePath ? (
+              <img src={menuImagePath} className="mx-auto d-block rounded" alt={menu.name} width="450" height="400"/>
+            ) : (
+              <div>No image available</div> // Placeholder if image is not available
+            )}
         </div>
-        <div className="col-8 ">
-          <p className='mb-3'> <strong>Description:</strong> {menu.fulldescription}</p>
+        <div className='col-sm-6'>
+          <div className="">
+              <p className='fs-4 text-start mb-3'> <strong>Description: </strong> {menu.fulldescription}</p>
+          </div>
+          <div className="text-start fs-4 list-inline">
+            <p><strong>Dietary Information: </strong> {menu.dietary_info || 'No dietary information available.'}</p>
+          </div>
+          <div className='text-start'> <strong className='fs-4 pe-2'>Price:</strong>
+            <span className='fs-4 p-0 m-0'>
+              <FaDollarSign className='fs-4 dollar p-0 m-0'/> {menu.price}
+            </span>
+          </div>
+          <div className='text-center my-3'>
+            <div className='d-flex justify-content-center align-items-center mt-5'>
+              <FaMinusCircle className='mx-2 minusPlus' onClick={decrementQuantity}/>
+              <span className='mx-2 quantityValue'>{quantity}</span>
+              <FaPlusCircle className='mx-2 minusPlus' onClick={incrementQuantity}/>
+            </div>
+          </div>
+          <div className='d-flex justify-content-center align-items-center mt-4'>
+            <button className='quantityButton mx-3' onClick={handleBackClick}><strong>CANCEL</strong></button>
+            <button className='quantityButton mx-3'><strong>ADD TO CART</strong></button>
+          </div>
         </div>
-        <div className="mb-4">
-          <h5>Dietary Information:</h5>
-          <p>{menu.dietary_info || 'No dietary information available.'}</p>
-        </div>
-          <span className='price-wrapper'>
-            <FaDollarSign className='dollar'/> {menu.price}
-          </span>
       </div>
     </div>
   );
