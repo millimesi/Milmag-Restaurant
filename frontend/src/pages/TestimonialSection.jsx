@@ -8,8 +8,10 @@ import Tiwter from "../assets/Ellipse 9.png";
 const TestimonialSection = () => {
   return (
     <div className="Testimonial-desc">
-      <h1>Our Restaurant</h1>
-      <p>for your comfort, service and freshness</p>
+      <div className="Testi-header">
+        <h1>Testimonials</h1>
+        <p>for your comfort, service and freshness</p>
+      </div>
       <div className="witness-cont">
         <div className="witness">
           <img className="prof" src={`${ProfilePic}`} alt="witness" />

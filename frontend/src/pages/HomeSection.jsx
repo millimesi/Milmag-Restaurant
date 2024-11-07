@@ -1,11 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 // import logo from "../assets/logo.png";
 import "./HomeSections.css";
 // import "./style.css";
 import Burger from "../assets/burger.png";
-import Pizza from "../assets/Pizza.png";
+import Pizza from "../assets/pizza.png";
 import Salad from "../assets/salad.png";
-import Drink from "../assets/drink.png";
+import Drink from "../assets/drinks.png";
+import { NavLink } from "react-router-dom";
 
 const HomeSection = () => {
   const slideRef = useRef(null); // Reference to the slide container
@@ -18,15 +19,15 @@ const HomeSection = () => {
     }
   };
 
-  const handlePrev = () => {
-    const items = slideRef.current.querySelectorAll(".item");
-    if (items.length > 0) {
-      const lastItem = items[items.length - 1];
-      slideRef.current.prepend(lastItem);
-    }
-  };
+  useEffect(() => {
+    // Set up the interval for auto-sliding
+    const interval = setInterval(handleNext, 6000); // Slide every 3 seconds
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
   return (
-    <div className="container">
+    <div className="home-container">
       <div className="slide" ref={slideRef}>
         <div className="item" style={{ backgroundImage: `url(${Burger})` }}>
           <div className="content">
@@ -34,7 +35,11 @@ const HomeSection = () => {
             <div className="des">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!
             </div>
-            <button>Order Now</button>
+            <button>
+              <NavLink className="ordernow" to="/food">
+                Order Now
+              </NavLink>
+            </button>
           </div>
         </div>
         {/*-----------------------------------  */}
@@ -44,7 +49,11 @@ const HomeSection = () => {
             <div className="des">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!
             </div>
-            <button>Order Now</button>
+            <button>
+              <NavLink className="ordernow" to="/food">
+                Order Now
+              </NavLink>
+            </button>
           </div>
         </div>
         {/*-----------------------------------  */}
@@ -54,7 +63,11 @@ const HomeSection = () => {
             <div className="des">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!
             </div>
-            <button>Order Now</button>
+            <button>
+              <NavLink className="ordernow" to="/food">
+                Order Now
+              </NavLink>
+            </button>
           </div>
         </div>
         {/*-----------------------------------  */}
@@ -64,19 +77,19 @@ const HomeSection = () => {
             <div className="des">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!
             </div>
-            <button>Order Now</button>
+            <button>
+              <NavLink className="ordernow" to="/food">
+                Order Now
+              </NavLink>
+            </button>
           </div>
         </div>
         {/*-----------------------------------  */}
       </div>
-      <div className="button">
-        <button className="prev" onClick={handlePrev}>
-          Prev
-        </button>
-        <button className="next" onClick={handleNext}>
-          Next
-        </button>
-      </div>
+      {/* <div className="button">
+        <button className="prev">Prev</button>
+        <button className="next">Next</button>
+      </div> */}
     </div>
   );
 };
