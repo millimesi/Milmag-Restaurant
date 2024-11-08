@@ -22,6 +22,7 @@
     rgb(128, 0, 0, 0)
   );
 }
+
 .Logoo {
   position: absolute;
   z-index: 3;
@@ -30,4 +31,22 @@
   color: white;
   font-size: 18pt;
   font-weight: 400;
+}
+
+.shoppingCarts {
+  color: #f9f9f9 !important;
+  font-size: 1.5rem !important;
+}
+
+.shoppingCarts:hover {
+  /* color: #C8102E !important; */
+  transform: translateY(-5px) !important;
+}
+
+.cart-count {
+  color: white !important;
+  text-decoration: none !important;
+  padding-left: 0px !important;
+  transform: translateY(-5px) !important;
+  font-weight: bold !important;
 }

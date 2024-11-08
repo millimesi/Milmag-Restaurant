@@ -1,15 +1,23 @@
-import React, { useState } from 'react'; // { useEffect, useState }
+import React, { useState, useContext } from 'react'; // , useEffect, useRef
 import { useLoaderData, useNavigate, useLocation } from 'react-router-dom'; // useParams,
 import axios from 'axios';
 // import Spinner from './Spinner';
 import { FaArrowLeft, FaDollarSign, FaPlusCircle, FaMinusCircle, } from 'react-icons/fa';
 import '../stylesheets/customMenuDetails.css';
+import { cartContext } from '../context/context.jsx';
 
 const MenuDetails = () => {
   const menu = useLoaderData();
   const navigate = useNavigate();
   const location = useLocation();
-  const [quantity, setquantity] = useState(1);
+
+  // Access cart state from context
+  const { state: cartItems, dispatch } = useContext(cartContext);
+  // console.log("State Menu Details: ", cartItems);
+
+  // Check if item is in cart and set initial quantity accordingly
+  const cartItem = cartItems.find(item => item.id === menu.id);
+  const [quantity, setquantity] = useState(cartItem ? cartItem.quantity : 0);
 
   if (!menu) {
     return <div>Menu item not found.</div>;
@@ -17,7 +25,7 @@ const MenuDetails = () => {
 
   const incrementQuantity = () => setquantity(quantity + 1);
   const decrementQuantity = () => {
-    if (quantity > 1) setquantity(quantity - 1);
+    if (quantity > 0) setquantity(quantity - 1);
   };
 
   // Check if menu.image is defined and construct the image path
@@ -36,9 +44,19 @@ const MenuDetails = () => {
   // Navigate back to the previous menu category if available, otherwise go to /food
   const handleBackClick = () => {
     const previousCategory = location.state?.from || "/food";
-    // console.log(previousCategory);
-    // console.log(location.state?.from);
     navigate(previousCategory);
+  };
+
+  const handleAddToCart = () => {
+    if (quantity < 1) {
+      return null;
+    } else {
+      // Dispatch ADD action with the selected quantity
+      dispatch({
+        type: "ADD",
+        payload: { item: menu, quantity },
+      });
+    }
   };
 
   return (
@@ -81,7 +99,7 @@ const MenuDetails = () => {
           </div>
           <div className='d-flex justify-content-center align-items-center mt-4'>
             <button className='quantityButton mx-3' onClick={handleBackClick}><strong>CANCEL</strong></button>
-            <button className='quantityButton mx-3'><strong>ADD TO CART</strong></button>
+            <button className='quantityButton mx-3' onClick={handleAddToCart}><strong>ADD TO CART</strong></button>
           </div>
         </div>
       </div>

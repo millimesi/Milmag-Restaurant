@@ -1,19 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import '../stylesheets/customSingleItem.css';
+import '../stylesheets/error.css';
 import { NavLink } from 'react-router-dom';
 import { FaPlusCircle, FaMinusCircle, FaDollarSign } from 'react-icons/fa';
 import { FaCartShopping } from "react-icons/fa6";
+import { cartContext } from "../context/context.jsx";
 
 const SingleMenu = ({ item }) => {
-  const [quantity, setquantity] = useState(1);
+  // const [quantity, setquantity] = useState(1);
+
+  // Access cart state and dispatch from context
+  const { state: cartItems, dispatch } = useContext(cartContext);
+  const [ error, setError ] = useState(null);
+
+  // Check if item is in cart and set initial quantity accordingly
+  const cartItem = cartItems.find(itemMenu => itemMenu.id === item.id);
+  // console.log("cartItem: ", cartItem);
+  const [quantity, setquantity] = useState(cartItem ? cartItem.quantity : 0);  // useState(1)
+
+  // const globalState = useContext(cartContext);
+  // const dispatch = globalState.dispatch;
+  // console.log("globalState: ", globalState);
 
   const incrementQuantity = () => setquantity(quantity + 1);
   const decrementQuantity = () => {
     if (quantity > 1) setquantity(quantity - 1)
   };
 
-  // Check if menu.image is defined and construct the image path
-  // menu.imagePath ? require(`../assets/images/${menu.imagePath}.jpeg`) : null;
+  // Add item to cart with validation
+  const addToCart = () => {
+    if (quantity < 1 ) {
+      setError("Please indicate a quantity before adding to cart.");
+      return null
+    } else {
+      setError(""); // Clear error if quantity is valid
+      dispatch({
+        type: 'ADD',
+        payload: { item, quantity }
+      });
+    };
+  };
+
+  // Helper function to load item image with fallback if not found
   const getImagePath = (imagePath) => {
     try {
       return require(`../assets/images/${item.imagePath}.jpeg`);
@@ -37,7 +65,7 @@ const SingleMenu = ({ item }) => {
           ) : (
             <div>No image available</div> // Placeholder if image is not available
           )}
-        </div>
+          </div>
           <p className='text-center pt-3 m-0 card-text'>{item.description}</p>
           <div className='text-center'>
             <div className='price p-0 mb-0 mt-2'> <FaDollarSign className='m-0 p-0 '/> {item.price}</div>
@@ -47,10 +75,13 @@ const SingleMenu = ({ item }) => {
               <FaMinusCircle className='mx-2 plusMinus' onClick={decrementQuantity}/>
               <span className='mx-2'>{quantity}</span>
               <FaPlusCircle className='mx-2 plusMinus' onClick={incrementQuantity}/>
-              {/* <button className='btn btn-primary mx-3'>Add to Cart</button> */}
-              <FaCartShopping className='mx-3 shoppingCart'/>
+              {/* <button className='btn btn-primary mx-3'>Add to Cart</button>       {() => dispatch({type:'ADD', payload: item})}*/}
+              <FaCartShopping className='mx-3 shoppingCart' onClick={addToCart}/>
             </div>
           </div>
+
+          {error && <h1 className='error-message'>{error}</h1>}
+
           <div className='d-grid pb-1 col-4 mx-auto d-block'>
             {/* <NavLink to={`/${item.category === 'food' ? 'food' : 'drinks'}/${item.category.toLowerCase()}/${item.id}`} className='btn btn-primary'>
               Read More
