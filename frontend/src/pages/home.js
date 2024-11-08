@@ -10,9 +10,15 @@ const Home = () => (
   <div>
     <NavBar />
     <HomeSection />
-    <RestaurantDescription />
-    <TestimonialSection />
-    <ContactUs />
+    <div id="restaurant-section">
+      <RestaurantDescription />
+    </div>
+    <div id="testimonial-section">
+      <TestimonialSection />
+    </div>
+    <div id="contact-section">
+      <ContactUs />
+    </div>
   </div>
 );
 

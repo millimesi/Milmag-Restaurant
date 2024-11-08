@@ -1,0 +1,6 @@
+.App {
+  position: relative;
+}
+html {
+  scroll-behavior: smooth !important;
+}
