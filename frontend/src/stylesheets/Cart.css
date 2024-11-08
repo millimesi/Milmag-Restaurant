@@ -1,0 +1,106 @@
+.cart-details {
+  text-align: center !important;
+  background-color: rgb(128, 0, 0) !important;
+  color: #f9f9f9 !important;
+  width: 100% !important;
+  padding: 0em 0em 0.8em 0em !important;
+}
+
+/* .cart-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 1em;
+  background-color: rgb(128, 0, 0) !important;
+  color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+  margin-top: 0 !important;
+}
+
+.cart-header span {
+  flex: 1;
+  text-align: center;
+}
+
+.cart-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 3em 15em 1em 15em !important;
+  padding: 1em !important;
+  border-bottom: 1px solid rgb(128, 0, 0) !important;
+}
+
+.cart-item img {
+  width: 50px !important;
+  height: 50px !important;
+  margin-right: 1em !important;
+}
+
+.cart-item-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  width: 100% !important;
+  gap: 1em !important;
+}
+
+.cart-item-content p {
+  margin: 0;
+  flex: 1 !important;
+  text-align: center !important;
+}
+
+.cart-item .quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+} */
+
+.cart-table {
+  width: 80% !important;
+  margin: auto !important;
+  border-collapse: collapse !important;
+  margin-top: 1em !important;
+}
+
+.cart-table th,
+.cart-table td {
+  border: 1px solid #ddd !important;
+  padding: 8px !important;
+  text-align: center !important;
+}
+
+.cart-table th {
+  background-color: rgb(128, 0, 0) !important;
+  color: #f9f9f9 !important;
+  font-weight: bold !important;
+}
+
+.cart-table img {
+  display: block !important;
+  margin: 0 auto !important;
+  height: 80px !important;
+  width: 80px !important;
+}
+
+.quantity-controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5em !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+}
+
+.delete-cart {
+  color: rgb(128, 0 , 0) !important;
+  font-size: 20px !important;
+  margin-left: 10px !important;
+}
+
+.cart-table2 {
+  width: 80% !important;
+  margin: auto !important;
+  border-collapse: collapse !important;
+  margin-top: 1em !important;
+}

@@ -5,6 +5,7 @@ import Menu from '../pages/menu';
 import MenuCategoryDynamic from '../pages/MenuCategoryDynamic';
 import NotFoundPage from '../pages/NotFoundPage';
 import MenuDetails, { menuLoader } from '../components/MenuDetails';
+import Cart from '../pages/cart.jsx';
 
 const AppRoutes = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +22,7 @@ const AppRoutes = createBrowserRouter(
         <Route path=":subcategory" element={<MenuCategoryDynamic />} />
         <Route path=":subcategory/:id" element={<MenuDetails />} loader={menuLoader}/>
       </Route>
+      <Route path="/cart" element={<Cart />} />
     </>
   )
 )

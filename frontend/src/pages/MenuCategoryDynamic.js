@@ -4,6 +4,7 @@ import MenuCategory from '../components/MenuCategory';
 import MenuDetails from '../components/MenuDetails';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
+import '../stylesheets/error.css';
 
 const MenuCategoryDynamic = () => {
   const { subcategory, id } = useParams();
@@ -52,8 +53,10 @@ const MenuCategoryDynamic = () => {
 
   // Display error message if there was an error
   if (error) {
-    return <h2>{error}</h2>;
+    return <h2 className='error-message'>{error}</h2>;
   }
+
+  // {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
   // Check if subcategory is defined before calling toLowerCase
   if (!subcategory) {
