@@ -15,6 +15,7 @@
   position: fixed;
   z-index: 2;
   width: 100vw;
+  /* margin-right: 10em !important; */
   background: linear-gradient(
     to bottom,
     rgb(128, 0, 0, 1),
@@ -33,20 +34,30 @@
   font-weight: 400;
 }
 
+.shoppingCartContainer {
+  position: relative;
+  display: inline-block;
+  margin-right: 1em; /* Adjust if needed */
+}
+
 .shoppingCarts {
   color: #f9f9f9 !important;
   font-size: 1.5rem !important;
 }
 
-.shoppingCarts:hover {
+.shoppingCartContainer:hover {
   /* color: #C8102E !important; */
   transform: translateY(-5px) !important;
 }
 
 .cart-count {
+  position: absolute;
+  /* top: 8px;
+  right: 8px;  */
   color: white !important;
   text-decoration: none !important;
-  padding-left: 0px !important;
+  padding: 0px !important;
   transform: translateY(-5px) !important;
   font-weight: bold !important;
+  margin: 0 !important;
 }

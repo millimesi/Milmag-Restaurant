@@ -4,7 +4,7 @@ import MenuCategory from '../components/MenuCategory';
 import MenuDetails from '../components/MenuDetails';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
-import '../stylesheets/error.css';
+import '../stylesheets/errorSuccess.css';
 
 const MenuCategoryDynamic = () => {
   const { subcategory, id } = useParams();

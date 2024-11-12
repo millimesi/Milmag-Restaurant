@@ -1,0 +1,35 @@
+.error-message {
+  color: rgb(128, 0, 0) !important;
+  background-color: rgb(249, 241, 241) !important;
+  text-align: center !important;
+  font-size: 0.9em !important;
+  margin-top: 20px !important;
+  margin-left: 0px !important;
+  padding: 0.7em 0em !important;
+  border: none !important;
+  border-radius: 0.5em !important;
+}
+
+.error-message-MenuDetails {
+  color: rgb(128, 0, 0) !important;
+  background-color: white !important;
+  text-align: center !important;
+  font-size: 1em !important;
+  margin-top: 20px !important;
+  margin-left: 0px !important;
+  padding: 0.7em 0em !important;
+  border: none !important;
+  border-radius: 0.5em !important;
+}
+
+.success-message {
+  color: green !important;
+  background-color: rgb(209, 253, 209) !important;
+  text-align: center !important;
+  font-size: 0.9em !important;
+  margin-top: 20px !important;
+  margin-left: 0px !important;
+  padding: 0.7em 0em !important;
+  border: none !important;
+  border-radius: 0.5em !important;
+}

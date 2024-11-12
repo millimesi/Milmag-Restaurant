@@ -8,7 +8,7 @@ import {
   getMenuBySubcategory,
   getMenuById
 } from '../controllers/menuController.js';
-// import { authenticate } from '../middlewares/authenticate.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
 const router = express.Router();
 
