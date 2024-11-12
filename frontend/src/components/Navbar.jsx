@@ -40,12 +40,12 @@ const NavBar = () => {
           RESERVATIONS
         </NavLink>
         <NavLink className={navBarLink} to="#">
-          LOGIN
+          REGISTER/LOGIN
         </NavLink>
-        <NavLink className='shoppingCarts' to="/cart" >
-          <FaCartShopping />
+        <NavLink className='shoppingCartContainer' to="/cart" >
+          <FaCartShopping className="shoppingCarts"/>
+          {totalItemQuantity > 0 && <span className="cart-count">{totalItemQuantity}</span>}
         </NavLink>
-        {totalItemQuantity > 0 && <span className="cart-count">{totalItemQuantity}</span>}
       </div>
     </div>
   );

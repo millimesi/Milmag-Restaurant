@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import '../stylesheets/customSingleItem.css';
-import '../stylesheets/error.css';
+import '../stylesheets/errorSuccess.css';
 import { NavLink } from 'react-router-dom';
 import { FaPlusCircle, FaMinusCircle, FaDollarSign } from 'react-icons/fa';
 import { FaCartShopping } from "react-icons/fa6";
@@ -12,6 +12,7 @@ const SingleMenu = ({ item }) => {
   // Access cart state and dispatch from context
   const { state: cartItems, dispatch } = useContext(cartContext);
   const [ error, setError ] = useState(null);
+  const [ success, setSuccess ] = useState(null);
 
   // Check if item is in cart and set initial quantity accordingly
   const cartItem = cartItems.find(itemMenu => itemMenu.id === item.id);
@@ -31,14 +32,21 @@ const SingleMenu = ({ item }) => {
   const addToCart = () => {
     if (quantity < 1 ) {
       setError("Please indicate a quantity before adding to cart.");
-      return null
+      setSuccess(null);
+      return;
     } else {
       setError(""); // Clear error if quantity is valid
       dispatch({
         type: 'ADD',
         payload: { item, quantity }
       });
+      setSuccess("Item Added to cart successfully!"); // Sets success message
     };
+
+    // Clears success message after 3secs
+    setTimeout(() => {
+      setSuccess("");
+    }, 3000);
   };
 
   // Helper function to load item image with fallback if not found
@@ -80,7 +88,9 @@ const SingleMenu = ({ item }) => {
             </div>
           </div>
 
-          {error && <h1 className='error-message'>{error}</h1>}
+          {/* Displays error or success message */}
+          { error && <h1 className='error-message'>{error}</h1> }
+          { success && <h1 className='success-message'>{success}</h1> }
 
           <div className='d-grid pb-1 col-4 mx-auto d-block'>
             {/* <NavLink to={`/${item.category === 'food' ? 'food' : 'drinks'}/${item.category.toLowerCase()}/${item.id}`} className='btn btn-primary'>

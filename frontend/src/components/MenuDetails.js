@@ -5,6 +5,7 @@ import axios from 'axios';
 import { FaArrowLeft, FaDollarSign, FaPlusCircle, FaMinusCircle, } from 'react-icons/fa';
 import '../stylesheets/customMenuDetails.css';
 import { cartContext } from '../context/context.jsx';
+import '../stylesheets/errorSuccess.css';
 
 const MenuDetails = () => {
   const menu = useLoaderData();
@@ -13,7 +14,8 @@ const MenuDetails = () => {
 
   // Access cart state from context
   const { state: cartItems, dispatch } = useContext(cartContext);
-  // console.log("State Menu Details: ", cartItems);
+  const [ error, setError ] = useState(null);
+  const [ success, setSuccess ] = useState(null);
 
   // Check if item is in cart and set initial quantity accordingly
   const cartItem = cartItems.find(item => item.id === menu.id);
@@ -29,7 +31,6 @@ const MenuDetails = () => {
   };
 
   // Check if menu.image is defined and construct the image path
-  // menu.imagePath ? require(`../assets/images/${menu.imagePath}.jpeg`) : null;
   const getImagePath = (imagePath) => {
     try {
       return require(`../assets/images/${menu.imagePath}.jpeg`);
@@ -41,22 +42,32 @@ const MenuDetails = () => {
 
   const menuImagePath = getImagePath(menu.imagePath);
 
-  // Navigate back to the previous menu category if available, otherwise go to /food
+  // Navigate back to the previous menu category if available, otherwise go to '/food'
   const handleBackClick = () => {
     const previousCategory = location.state?.from || "/food";
     navigate(previousCategory);
   };
 
+  // Add item to cart with validation
   const handleAddToCart = () => {
     if (quantity < 1) {
-      return null;
+      setError("Please indicate a quantity before adding to cart");
+      setSuccess(null);
+      return;
     } else {
+      setError(""); // Clear error if quantity is valid
       // Dispatch ADD action with the selected quantity
       dispatch({
         type: "ADD",
         payload: { item: menu, quantity },
       });
+      setSuccess("Item added to cart successfully!") // Sets success message
     }
+
+    // Clears success message after 3 secs
+    setTimeout(() => {
+      setSuccess("");
+    }, 3000);
   };
 
   return (
@@ -71,7 +82,6 @@ const MenuDetails = () => {
       <h1 className='mb-5 text-center menuName'>{menu.name}</h1>
       <div className='row'>
         <div className='col-sm-6 mb-5'>
-            {/* <img src={require(`../assets/images/${menu.imagePath}.jpeg`)} class="rounded" alt="Classic Beef Burger" width="450" height="400"/> */}
             {menuImagePath ? (
               <img src={menuImagePath} className="mx-auto d-block rounded" alt={menu.name} width="450" height="400"/>
             ) : (
@@ -97,6 +107,11 @@ const MenuDetails = () => {
               <FaPlusCircle className='mx-2 minusPlus' onClick={incrementQuantity}/>
             </div>
           </div>
+
+          {/* Displays error and success messages */}
+          { error && <h1 className='error-message-MenuDetails'>{error}</h1> }
+          { success && <h1 className='success-message'>{success}</h1> }
+
           <div className='d-flex justify-content-center align-items-center mt-4'>
             <button className='quantityButton mx-3' onClick={handleBackClick}><strong>CANCEL</strong></button>
             <button className='quantityButton mx-3' onClick={handleAddToCart}><strong>ADD TO CART</strong></button>
