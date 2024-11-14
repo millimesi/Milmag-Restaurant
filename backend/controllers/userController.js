@@ -95,7 +95,7 @@ export const register = async (req, res) => {
       { expiresIn: '7d' }
     );
     if (!token) {
-      res.status(400).json({message: "Error generating token"});
+      return res.status(400).json({message: "Error generating token"});
     }
 
     newUser.token = token;
@@ -105,13 +105,24 @@ export const register = async (req, res) => {
 
     // when a new user registers, they will automatically receive a token in their cookies,
     // allowing them to be authenticated without needing to log in immediately afterward.
-    res.cookie('token', token, {
+    const options = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'development',
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    });
+    };
 
-    res.status(201).json(newUser);
+    // Sanitized User details for frontend usage
+    const safeUser = {
+      id: newUser.id,
+      email: newUser.email,
+      isAdmin: newUser.isAdmin
+    }
+
+    return res.status(201).cookie("token", token, options).json({
+      status: "success",
+      token,
+      safeUser
+    }); // newUser
   } catch (error) {
     console.error("Registration error: ", error);
     res.status(400).json({ error: error.message });
@@ -124,12 +135,12 @@ export const login = async (req, res) => {
 
     // Get all fields
     if (!(email && password)) {
-      res.status(400).json({ message: "All fields(email and password) are compulsory!!!" });
+      return res.status(400).json({ message: "All fields(email and password) are compulsory!!!" });
     }
 
     const existingUser = await User.findOne({ where: { email: email.toLowerCase() } });
     if (!existingUser) {
-      res.status(400).json({ message: "Invalid email or password" }); // "User with this email does not exist"
+      return res.status(400).json({ message: "Invalid email or password" }); // "User with this email does not exist"
     }
 
     if (existingUser && (await bcrypt.compare(password, existingUser.password))) {
@@ -145,23 +156,29 @@ export const login = async (req, res) => {
       existingUser.password = undefined;
 
       const options = {
-        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-        httpOnly: true 
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'development',
       };
-      res.cookie('token', token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'development',
-          expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      });
-      res.status(200).cookie("token", token, options).json({
-          success: true, token, user: existingUser
-      });
+
+      // Sanitized User details for frontend usage
+      const safeUser = {
+        id: existingUser.id,
+        email: existingUser.email,
+        isAdmin: existingUser.isAdmin
+      }
+
+      return res.status(200).cookie("token", token, options).json({
+          status: "success",
+          token,
+          user: safeUser
+      }); // user: existingUser
     } else {
-      res.status(400).json({ message: "Invalid email or password" }); // "Invalid password"
+      return res.status(400).json({ message: "Invalid email or password" }); // "Invalid password"
     }
   } catch (error) {
     console.error('Login error: ', error);
-        res.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
   }
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 // import SingleItem from './SingleMenu';
-import SingleMenu from './SingleMenu';
+import SingleMenu from './SingleMenu.js'
 
 const MenuCategory = ({ title, items }) => {
   return (

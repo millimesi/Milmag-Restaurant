@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import MenuCategory from '../components/MenuCategory';
-import MenuDetails from '../components/MenuDetails';
+import MenuCategory from '../pages/MenuCategory';
+import MenuDetails from '../pages/MenuDetails';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
 import '../stylesheets/errorSuccess.css';
@@ -28,7 +28,7 @@ const MenuCategoryDynamic = () => {
           setError(null); // Clear error if data is present
         }
       } catch (error) {
-        console.error('Fetch error:', error);
+        console.error('Fetch error in subcategory:', error);
         if (error.response && error.response.status === 404) {
           // Handle 404 and other errors
           setError(`No items found for this subcategory ${subcategory}.`); // Custom message for 404

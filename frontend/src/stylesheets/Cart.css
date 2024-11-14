@@ -29,8 +29,9 @@
 .cart-table img {
   display: block !important;
   margin: auto !important;
-  height: 80px !important;
+  height: 70px !important;
   width: 80px !important;
+  border-radius: 5% !important;
 }
 
 .quantity-controls {
@@ -92,4 +93,54 @@
   /* margin-top: 20px !important; */
   margin: 50px auto !important;
   width: 20% !important;
+}
+
+.emptyCart {
+  display: flex;
+  flex-direction: column;
+  font-size: 30px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  color: rgb(128, 0 , 0);
+  padding: 20px;
+  background-color: #f8f9fa;
+  /* border: 2px dashed rgb(128, 0, 0); */
+  border-radius: 8px; /* Softens the border edges */
+  margin: 20px auto; /* Centers with margin */
+  max-width: 400px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.emptyCartIcon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.emptyCartMessage {
+  font-size: 24px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.emptyCartSubtext {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.emptyCartButton {
+  padding: 10px 20px;
+  background-color: rgb(128, 0, 0);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.emptyCartButton:hover {
+  background-color: rgb(155, 2, 2);
 }

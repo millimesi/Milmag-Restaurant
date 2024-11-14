@@ -3,8 +3,8 @@ import { Route, Navigate, createBrowserRouter, createRoutesFromElements } from '
 import Home from '../pages/home';
 import Menu from '../pages/menu';
 import MenuCategoryDynamic from '../pages/MenuCategoryDynamic';
-import NotFoundPage from '../pages/NotFoundPage';
-import MenuDetails, { menuLoader } from '../components/MenuDetails';
+import NotFoundPage from '../components/NotFoundPage.js';
+import MenuDetails, { menuLoader } from '../pages/MenuDetails';
 import Cart from '../pages/cart.jsx';
 import Register from '../pages/register.jsx';
 import Login from '../pages/login.jsx';

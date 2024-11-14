@@ -1,5 +1,5 @@
 import React, { useContext } from "react"; // , {useContext}
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import "../stylesheets/customNavBar.css";
 import { FaCartShopping } from "react-icons/fa6";
 import { cartContext } from "../context/context.jsx";
@@ -7,6 +7,8 @@ import Logo from "../assets/logo.png";
 
 const NavBar = () => {
   const { state } = useContext(cartContext); // Access cart items from context
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Calculate total quantity in the cart
   const totalItemQuantity = state.length;
@@ -14,16 +16,53 @@ const NavBar = () => {
   const navBarLink = ({ isActive }) =>
     isActive ? "navbarlinkActive px-3 py-2" : "navbarlink px-3 py-2";
 
+  const isAuthenticated = !!localStorage.getItem("token");
+  
+  const handleCartClick = () => {
+    if (isAuthenticated) {
+      navigate('/cart')
+    } else {
+      navigate('/login', { state: { redirectTo: '/cart' }});
+    }
+  }
+
+  const handleLogout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem("token");
+
+    // You can also clear cookies if needed (add code for cookie removal if using cookies)
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+
+    // Redirect user to the home page or login page
+    navigate('/home');
+  }
+
+  // Conditionally set the background color based on the route
+  const isHomePage = location.pathname === "/";
+
   return (
     <div className="">
-      <p className="Logoo">
+      <p
+        className="Logoo"
+        style={{
+          position : isHomePage ? "fixed" : "",
+        }}
+      >
         <img src={Logo} alt="Milmag Logo" />
-        Milmag
-      </p>
-      <div className="d-flex justify-content-end px-3 pt-3 pb-3 navbar-container">
+        {/* Milmag */}
         <NavLink className={navBarLink} to="/">
-          HOME
+          <strong>MILMAG</strong>
         </NavLink>
+      </p>
+      <div
+        className="d-flex justify-content-end px-5 pt-3 pb-3 navbar-container"
+        style={{
+          position : isHomePage ? "fixed" : "",
+        }}
+      >
+        {/* <NavLink className={navBarLink} to="/">
+          HOME
+        </NavLink> */}
         <NavLink className={navBarLink} to="/food">
           MENU
         </NavLink>
@@ -39,10 +78,16 @@ const NavBar = () => {
         <NavLink className={navBarLink} to="#">
           RESERVATIONS
         </NavLink>
-        <NavLink className={navBarLink} to="#">
-          REGISTER/LOGIN
+        <NavLink className={navBarLink} to="/register">
+          REGISTER
         </NavLink>
-        <NavLink className='shoppingCartContainer' to="/cart" >
+        <NavLink className={navBarLink} to="/login">
+          LOGIN
+        </NavLink>
+        <NavLink className={navBarLink} onClick={handleLogout}> {/*This logout link was added for testing purposes. It will be removed */}
+          LOGOUT
+        </NavLink>
+        <NavLink className='shoppingCartContainer' onClick={handleCartClick} >
           <FaCartShopping className="shoppingCarts"/>
           {totalItemQuantity > 0 && <span className="cart-count">{totalItemQuantity}</span>}
         </NavLink>
