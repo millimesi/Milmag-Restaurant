@@ -12,16 +12,20 @@
 }
 
 .navbar-container {
-  position: fixed;
+  /* position: fixed; */
+  background-color: rgb(128, 0, 0);
   z-index: 2;
   width: 100vw;
+  top: 0;
+  left: 0;
+  right: 0;
   /* margin-right: 10em !important; */
-  background: linear-gradient(
+  /* background: linear-gradient(
     to bottom,
     rgb(128, 0, 0, 1),
     rgb(128, 0, 0, 0.4),
     rgb(128, 0, 0, 0)
-  );
+  ); */
 }
 
 .Logoo {

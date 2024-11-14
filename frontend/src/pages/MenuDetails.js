@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react'; // , useEffect, useRef
 import { useLoaderData, useNavigate, useLocation } from 'react-router-dom'; // useParams,
 import axios from 'axios';
-// import Spinner from './Spinner';
-import { FaArrowLeft, FaDollarSign, FaPlusCircle, FaMinusCircle, } from 'react-icons/fa';
+import { FaDollarSign, FaPlusCircle, FaMinusCircle, } from 'react-icons/fa'; //FaArrowLeft,
 import '../stylesheets/customMenuDetails.css';
 import { cartContext } from '../context/context.jsx';
 import '../stylesheets/errorSuccess.css';
@@ -72,13 +71,13 @@ const MenuDetails = () => {
 
   return (
     <div className="container icon-container">
-      <section className="row">
+      {/* <section className="row">
         <div className="col-12 back-button-wrapper">
           <button onClick={handleBackClick} className="btn btn-outline-light back-to-menu">
             <FaArrowLeft className="icon-left" /> Back to Menu
           </button>
         </div>
-      </section>
+      </section> */}
       <h1 className='mb-5 text-center menuName'>{menu.name}</h1>
       <div className='row'>
         <div className='col-sm-6 mb-5'>

@@ -51,9 +51,9 @@
 }
 
 .minusPlus:hover {
-  transform: translateY(-2px) !important; /* Slight lift on hover */
+  /* transform: translateY(-2px) !important; */
   color:  #C8102E !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* Shadow effect */
+  /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; */
 }
 
 .quantityValue {
@@ -61,8 +61,8 @@
 }
 
 .quantityButton {
-  background-color: rgb(254, 254, 254);
-  color: rgb(128, 0, 0) !important;
+  color: rgb(254, 254, 254);
+  background-color: rgb(128, 0, 0) !important;
   padding: 12px; /* Increase padding for wider buttons */
   width: 280px;
   border: solid;
@@ -74,6 +74,6 @@
 }
 
 .quantityButton:hover {
-  background-color: rgb(128, 0, 0) !important;
-  color: rgb(254, 254, 254) !important;
+  background-color: #C8102E !important;
+  /* color: rgb(128, 0, 0)  !important; */
 }

@@ -19,7 +19,7 @@ const ContactUs = () => {
       <div className="footer-social-icon">
         <p>
           <img src={`${Location}`} alt="Location" />
-          <a href="https://maps.app.goo.gl/rCoh7MpAgmsyZ3BdA">Come Vists Us</a>
+          <a href="https://maps.app.goo.gl/rCoh7MpAgmsyZ3BdA">Come Vists Us</a> 
         </p>
         <p>
           <img src={`${Instagram}`} alt="FaceBook" />
