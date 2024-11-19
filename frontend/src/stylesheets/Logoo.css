@@ -1,0 +1,12 @@
+.logoPara {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.logoPara img {
+  background-color: rgb(128, 0, 0);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  max-width: 100%;
+}

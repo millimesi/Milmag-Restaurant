@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import '../stylesheets/notFoundPage.css';
+// import Logoo from './Logoo.jsx';
 
 const NotFoundPage = () => {
   return (

@@ -4,6 +4,8 @@ import "../stylesheets/customNavBar.css";
 import { FaCartShopping } from "react-icons/fa6";
 import { cartContext } from "../context/context.jsx";
 import Logo from "../assets/logo.png";
+// import Logoo from "./Logoo.jsx";
+// import axios from "axios";
 
 const NavBar = () => {
   const { state } = useContext(cartContext); // Access cart items from context
@@ -30,15 +32,22 @@ const NavBar = () => {
     // Remove the token from localStorage
     localStorage.removeItem("token");
 
-    // You can also clear cookies if needed (add code for cookie removal if using cookies)
-    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+    // Clear cookies
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
 
-    // Redirect user to the home page or login page
-    navigate('/home');
+    // Redirect user to the home page
+    navigate("/");
   }
 
   // Conditionally set the background color based on the route
   const isHomePage = location.pathname === "/";
+
+  // const handleLoginRegisterNavBar = async(e) => {
+  //   try {
+  //     const response = await axios.get("/api/v1/users/login");
+
+  //   }
+  // }
 
   return (
     <div className="">
@@ -49,7 +58,6 @@ const NavBar = () => {
         }}
       >
         <img src={Logo} alt="Milmag Logo" />
-        {/* Milmag */}
         <NavLink className={navBarLink} to="/">
           <strong>MILMAG</strong>
         </NavLink>
@@ -78,15 +86,32 @@ const NavBar = () => {
         <NavLink className={navBarLink} to="#">
           RESERVATIONS
         </NavLink>
-        <NavLink className={navBarLink} to="/register">
-          REGISTER
-        </NavLink>
-        <NavLink className={navBarLink} to="/login">
-          LOGIN
-        </NavLink>
-        <NavLink className={navBarLink} onClick={handleLogout}> {/*This logout link was added for testing purposes. It will be removed */}
-          LOGOUT
-        </NavLink>
+
+
+        {/* Conditionally render Login and Register based on authentication status */}
+        {!isAuthenticated && (
+          <>
+            <NavLink className={navBarLink} to="/register">
+              REGISTER
+            </NavLink>
+            <NavLink className={navBarLink} to="/login">
+              LOGIN
+            </NavLink>
+            {/* <NavLink className={navBarLink} onClick={handleLogout}>
+              LOGOUT
+            </NavLink> */}
+        </>
+        )}
+
+        {/* Conditionally render Logout based on authentication status */}
+        {isAuthenticated && (
+          <>
+            <NavLink className={navBarLink} onClick={handleLogout}> {/*This logout link was added for testing purposes. It will be removed */}
+              LOGOUT
+            </NavLink>
+          </>
+        )}
+
         <NavLink className='shoppingCartContainer' onClick={handleCartClick} >
           <FaCartShopping className="shoppingCarts"/>
           {totalItemQuantity > 0 && <span className="cart-count">{totalItemQuantity}</span>}
