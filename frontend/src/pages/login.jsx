@@ -5,6 +5,7 @@ import Spinner from '../components/Spinner';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../stylesheets/login.css';
 import '../stylesheets/errorSuccess.css';
+import Logoo from '../components/Logoo';
 
 const Login = () => {
   const [ values, setValues ] = useState({
@@ -16,6 +17,9 @@ const Login = () => {
   const [ success, setSuccess ] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Retrieve success message from state
+  const successMessage = location.state?.success;
 
   axios.defaults.withCredentials = true;
 
@@ -34,22 +38,39 @@ const Login = () => {
     setSuccess(null);  // Reset success message
     try {
       const response = await axios.post(`/api/v1/users/login`, values); // Post email and password. It uses proxy in package.json.
+      // console.log("response.data.status", response.data.status);
+      // console.log("Response: ", response);
+      // console.log("Response.data: ", response.data);
 
-      if (response.data.status === 'success') {
+      // if (response.data.message === "You are already logged in") {
+        // Checks if user is already logged in
+        // setSuccess("You are already logged in");
+
+         // Redirect to the specified page or to '/ by default
+        // const redirectToo = location.state?.redirectTo || "/";
+        // navigate(redirectToo);
+        // navigate("/");
+      // } else if (response.data.status === "success") {
+      // } else
+      if (response.status === 200) {
+        setSuccess("Login Successful");
         // Store token in local storage to persist login status
         localStorage.setItem("token", response.data.token);
 
         // Redirect to the specified page or to '/cart' by default
-        const redirectTo = location.state?.redirectTo || '/cart';
+        const redirectTo = location.state?.redirectTo || "/cart";
         navigate(redirectTo);
       } else {
         setError(response.data.message || "Login Attempt Failed"); // Show error message
       }
 
-      // Clears success message after 3 secs
-      setTimeout(() => {
-        setSuccess("");
+       // Clear success message after 3 seconds
+      const timer = setTimeout(() => {
+        setSuccess(null);
       }, 3000);
+
+      // Cleanup timeout on unmount
+      return () => clearTimeout(timer);
     } catch (error) {
       console.error('Fetch error in login:', error);
 
@@ -73,7 +94,12 @@ const Login = () => {
       <NavBar />
       <div className='loginContainer'>
         <div className='loginDiv'>
-          <h3 className='loginHeading'>LOGIN</h3>
+          <Logoo />
+          <div className='loginHeading'><strong>Log into your account.</strong></div>
+
+          {/* Display success message from navigation */}
+          {successMessage && <div className="success-message">{successMessage}</div>}
+
           <form action="" onSubmit={handleSubmit} className=''>
             <div className=''>
               <label htmlFor="email" className='loginLabel'><strong>Email: </strong></label>
@@ -106,7 +132,7 @@ const Login = () => {
             {error && <div className="error-message">{error}</div>}
             {success && <div className="success-message">{success}</div>}
 
-            <button type='submit' className='loginButton'>Login</button>
+            <button type='submit' className='loginButton'><strong>LOGIN</strong></button>
 
           </form>
 
@@ -116,7 +142,7 @@ const Login = () => {
           </p>
 
           <p className='loginForgotPassword'>
-            <button>Forgot Password?</button>
+            <button onClick={() => navigate('/forgotPassword')}>Forgot Password?</button>
           </p>
         </div>
       </div>

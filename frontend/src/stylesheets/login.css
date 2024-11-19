@@ -21,6 +21,7 @@
   text-align: center;
   color: rgb(128, 0, 0);
   margin-bottom: 1.5rem;
+  font-size: 25px;
 }
 
 .loginLabel {
@@ -38,6 +39,12 @@
   border-radius: 4px;
   font-size: 1rem;
   box-sizing: border-box;
+}
+
+.loginInputField:focus {
+  border: 2px solid rgb(155, 2, 2);
+  outline: none;
+  box-shadow: 0 0 3px rgba(155, 2, 2, 0.5);
 }
 
 .loginButton {

@@ -21,6 +21,21 @@ export const register = async (req, res) => {
   try {
     const { firstName, lastName, phoneNumber, email, password } = req.body;
 
+    // Check if token already exists, indicating the user is logged in
+    // const existingToken = req.cookies.token || req.headers['authorization'];
+    // if (existingToken) {
+    //   try {
+    //     // Verify the existing token
+    //     const decoded = jwt.verify(existingToken, process.env.JWTSECRET);
+        
+    //     // If token is valid, return a message saying user is already logged in
+    //     return res.status(200).json({ message: "You are already logged in" }); // Message used in the frontend for login authetication (login.jsx)
+    //   } catch (error) {
+    //     // If token is invalid or expired, continue with login
+    //     console.log("Existing token is invalid or expired. Proceeding with login...");
+    //   }
+    // }
+
     // Basic checks for empty fields
     if (!(firstName && lastName && phoneNumber && email && password)) {
         return res.status(400).json({ message: "All fields(firstName, lastName, phoneNumber, email, password) are compulsory"});
@@ -133,6 +148,21 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Check if token already exists, indicating the user is logged in
+    const existingToken = req.cookies.token || req.headers['authorization'];
+    if (existingToken) {
+      try {
+        // Verify the existing token
+        const decoded = jwt.verify(existingToken, process.env.JWTSECRET);
+        
+        // If token is valid, return a message saying user is already logged in
+        return res.status(200).json({ message: "You are already logged in" });
+      } catch (error) {
+        // If token is invalid or expired, continue with login
+        console.log("Existing token is invalid or expired. Proceeding with login...");
+      }
+    }
+
     // Get all fields
     if (!(email && password)) {
       return res.status(400).json({ message: "All fields(email and password) are compulsory!!!" });
@@ -157,7 +187,7 @@ export const login = async (req, res) => {
 
       const options = {
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
+        // httpOnly: true, RE-ADD IT AFTER DELETING LOGOUT BUTTON IN FRONTEND
         secure: process.env.NODE_ENV === 'development',
       };
 
@@ -264,9 +294,17 @@ export const forgotPassword = async(req, res) => {
       to: email,
       subject: 'Milmag Password Reset',
       html: `
-              <h2>Click the following link to reset your password:</h2>
-              <p><a href="http://localhost:${process.env.PORT}/resetPassword/${token}" target="_blank">Reset Your Password</a></p>
-              <p>The link expires in 5 minutes.</p>
+              <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                <h2 style="color: #333;">Reset Your Milmag Password</h2>
+                <p>You requested to reset your password.Click the following link to reset your Milmag password:</p>
+                <p><a href="http://localhost:${process.env.PORT}/api/v1/users/resetPassword/${token}" target="_blank">Reset Your Password</a></p>
+                <p>The link expires in 5 minutes. If you did not request this, please contact our customer support immediately.</p>
+                <br />
+                <p style="font-size: 12px; color: #999;">
+                  Thank you,<br />
+                  The Milmag Team
+                </p>
+              </div>
             `
     }
 
@@ -274,7 +312,9 @@ export const forgotPassword = async(req, res) => {
       if (error) {
         return res.status(500).json({ error: 'Failed to send email' });
       }
-      return res.json({ message: 'An email has been sent to your inbox. Kindly follow the instructions.' });
+      return res.json({
+        status: "success",
+        message: 'An email has been sent to your inbox. Kindly follow the instructions.' });
     });
   } catch (error) {
     console.error({error: error.message});
@@ -285,6 +325,9 @@ export const forgotPassword = async(req, res) => {
 // Method to resetPassword from email.
 export const resetPassword = async (req, res) => {
   const { resetLink, newPassword } = req.body;
+  // console.log("req.body in userController", req.body);
+  // console.log("ResetLink in userController", resetLink);
+  // console.log("newPassowrd in userController", newPassword);
   if (!resetLink || !newPassword) {
     return res.status(400).json({ error: 'Reset link and new password are required.' });
   }
@@ -308,7 +351,7 @@ export const resetPassword = async (req, res) => {
     // Encrypt the new password
     const encyptedPwd = await bcrypt.hash(newPassword, 10);
     if (!encyptedPwd) {
-      return res.status(500).send('Could not encrypt password');
+      return res.status(500).json({error: 'Could not encrypt password'});
     }
 
     // Update user password and clear reset link
@@ -325,5 +368,40 @@ export const resetPassword = async (req, res) => {
   } catch (error) {
     console.error({error: error.message});
     res.status(401).json({ error: 'Token has expired or is invalid. Please request a new password reset link.' });
+  }
+};
+
+// Route to redirect user to password reset form on the frontend
+// export const resetPasswordToken = async(req, res) => {
+//   const { token } = req.params;
+
+//   // Redirect to the frontend with the token included in the query string
+//   const frontendUrl = `http://localhost:${process.env.FRONTENDPORT}/passwordReset?token=${token}`;
+//   return res.redirect(frontendUrl);
+// }
+
+// Route to redirect user to password reset form on the frontend
+export const resetPasswordToken = async(req, res) => {
+  const { token } = req.params;
+  // console.log("Token in resetPasswordToken", token);
+
+  if (!token) {
+    return res.status(400).json({ message: 'Token is required' });
+  }
+
+  try {
+    // Optional: Validate the token before redirecting (e.g., using JWT verify)
+    const decoded = jwt.verify(token, process.env.RESET_PASSWORD_KEY);
+    // console.log("Decoded in backend resetPasswordToken: ", decoded);
+    if (!decoded) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    // Redirect to frontend with token
+    const frontendUrl = `http://localhost:${process.env.FRONTENDPORT || 4000}/passwordReset?token=${token}`;
+    return res.redirect(frontendUrl);
+  } catch (error) {
+    console.error("Token error:", error.message);
+    return res.status(401).json({ message: 'Token has expired or is invalid' });
   }
 };

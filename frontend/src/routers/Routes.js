@@ -8,6 +8,8 @@ import MenuDetails, { menuLoader } from '../pages/MenuDetails';
 import Cart from '../pages/cart.jsx';
 import Register from '../pages/register.jsx';
 import Login from '../pages/login.jsx';
+import ForgotPassword from '../pages/forgotPassword.jsx';
+import PasswordReset from '../pages/passwordReset.jsx';
 
 const AppRoutes = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +29,8 @@ const AppRoutes = createBrowserRouter(
       <Route path="/cart" element={<Cart />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/forgotPassword" element={<ForgotPassword/>} />
+      <Route path="/passwordReset" element={<PasswordReset />} />
     </>
   )
 )

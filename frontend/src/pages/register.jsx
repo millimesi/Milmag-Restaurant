@@ -5,6 +5,7 @@ import Spinner from '../components/Spinner';
 import axios from 'axios';
 import '../stylesheets/register.css';
 import '../stylesheets/errorSuccess.css';
+import Logoo from '../components/Logoo.jsx';
 
 const Register = () => {
   const [ values, setValues ] = useState({
@@ -50,15 +51,18 @@ const Register = () => {
         setError(response.data.message || "Registration failed.");
       }
 
-      // Clears success message after 3 secs
-      setTimeout(() => {
-        setSuccess("");
+       // Clear success message after 3 seconds
+      const timer = setTimeout(() => {
+        setSuccess(null);
       }, 3000);
+
+      // Cleanup timeout on unmount
+      return () => clearTimeout(timer);
     } catch (error) {
       console.error('Fetch error in Register:', error);
       
       // Capture error details for specific client feedback
-      if (error.response && error.response.data) {
+      if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
       } else {
         setError("An error occurred. Please try again later.");
@@ -73,7 +77,8 @@ const Register = () => {
       <NavBar />
       <div className='registerContainer'>
         <div className='registerDiv'>
-          <h3 className='registerHeading'>REGISTER</h3>
+          <Logoo />
+          <div className='registerHeading'><strong>Let's create your account.</strong></div>
           <form action="" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="firstName" className='registerLabel'><strong>First Name: </strong></label>
@@ -150,7 +155,7 @@ const Register = () => {
           </form>
 
           <p className='registerLogin'>
-            Already have an account?{' '}
+            Already have an account?
             <button onClick={() => navigate('/login')}>Login here</button>
           </p>
 
