@@ -6,7 +6,8 @@ import NavBar from '../components/Navbar';
 import Spinner from '../components/Spinner';
 import '../stylesheets/passwordReset.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import PasswordValidator from 'password-validator';
+import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
 
 const PasswordReset = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const PasswordReset = () => {
   const [ loading, setLoading ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ success, setSuccess ] = useState(null);
+    const [ showPassword, setShowPassword ] = useState(false);
   // const navigate = useNavigate();
   // const location = useLocation();
 
@@ -38,13 +40,31 @@ const PasswordReset = () => {
       return;
     }
 
+    // Password validation
+    const schema = new PasswordValidator();
+
+    schema
+      .is().min(6) // Minimum length 6
+      .has().uppercase() // Must have uppercase letters
+      .has().lowercase() // Must have lowercase letters
+      .has().digits() // Must have digits
+      .has().not().spaces() // Should not have spaces
+      .has().symbols() // Must have symbols
+
+    const validatePassword = (password) => schema.validate(password);
+    if (!validatePassword(values.password)) {
+      setError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
+      setLoading(false);
+      return;
+    }
+
     if (values.newPassword !== values.confirmPassword) {
         setError("Passwords do not match. Please try again.");
         return;
     }
 
     setLoading(true);
-    setError(null); // Reset error before new login attempt
+    setError(null); // Reset error before new passwordReset attempt
     setSuccess(null);  // Reset success message
 
     try {
@@ -52,7 +72,7 @@ const PasswordReset = () => {
         newPassword: values.newPassword,
         resetLink: token,
       });
-      console.log("Response", response);
+      // console.log("Response", response);
       // Set success message if the request is successful
       // if (response.status === 200) {
       //   setSuccess("Your password has been reset successfully. You can now log in.");
@@ -89,37 +109,51 @@ const PasswordReset = () => {
           <div className='passwordResetHeading'><strong>Forgot Password</strong></div>
           <Logoo />
           <form action='' onSubmit={handleSubmit} className="">
-            <div>
-              <label htmlFor="email" className="passwordResetLabel"><strong>New Password: </strong></label>
-              <input
-                type="password"
-                placeholder="Enter new password"
-                name="password"
-                autoComplete="off"
-                className="passwordResetInputField"
-                id="newPassword"
-                value={values.newPassword}
-                onChange={e => setValues({...values, newPassword: e.target.value})}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="passwordResetLabel"><strong>Confirm Password: </strong></label>
-              <input
-                type="password"
-                placeholder="Confirm password"
-                name="password"
-                autoComplete="off"
-                className="passwordResetInputField"
-                id="confirmPassword"
-                value={values.confirmPassword}
-                onChange={e => setValues({...values, confirmPassword: e.target.value})}
-              />
-            </div>
-
-
             {/* Display error or success messages */}
             {error && <div className="error-message">{error}</div>}
             {success && <div className="success-message">{success}</div>}
+
+            <div className="passwordResetPasswordContainer">
+              <label htmlFor="email" className="passwordResetPasswordLabel"><strong>New Password: </strong></label>
+              <div className="passwordResetInputPasswordField">
+                <input
+                // type="password"
+                type={showPassword ? "text" : "password"} // Controls Password Visibility
+                placeholder="Enter new password"
+                name="password"
+                autoComplete="off"
+                className="passwordResetPasswordInput"
+                id="newPassword"
+                value={values.newPassword}
+                onChange={e => setValues({...values, newPassword: e.target.value})}
+                />
+
+                <div onClick={() => setShowPassword(!showPassword)} className="passwordResetEyeIcon">
+                  {showPassword ? <LiaEyeSlashSolid /> : < LiaEyeSolid />}
+                </div>
+              </div>
+            </div>
+
+            <div className="passwordResetPasswordContainer">
+              <label htmlFor="password" className="passwordResetPasswordLabel"><strong>Confirm Password: </strong></label>
+              <div className="passwordResetInputPasswordField">
+                 <input
+                  // type="password"
+                  type={showPassword ? "text" : "password"} // Controls Password Visibility
+                  placeholder="Confirm password"
+                  name="password"
+                  autoComplete="off"
+                  className="passwordResetPasswordInput"
+                  id="confirmPassword"
+                  value={values.confirmPassword}
+                  onChange={e => setValues({...values, confirmPassword: e.target.value})}
+                />
+
+                <div onClick={() => setShowPassword(!showPassword)} className="passwordResetEyeIcon">
+                  {showPassword ? <LiaEyeSlashSolid /> : < LiaEyeSolid />}
+                </div>
+              </div>
+            </div>
 
             <button type='submit' className='passwordResetButton'><strong>Reset Password</strong></button>
           </form>

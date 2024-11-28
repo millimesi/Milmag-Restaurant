@@ -6,6 +6,8 @@ import axios from 'axios';
 import '../stylesheets/register.css';
 import '../stylesheets/errorSuccess.css';
 import Logoo from '../components/Logoo.jsx';
+import PasswordValidator from 'password-validator';
+import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
 
 const Register = () => {
   const [ values, setValues ] = useState({
@@ -18,6 +20,7 @@ const Register = () => {
   const [ loading, setLoading ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ success, setSuccess ] = useState(null);
+  const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,10 +41,61 @@ const Register = () => {
       return;
     }
 
+    // First and Last Name validation of 2 letters
+    if (values.firstName.length < 2 || values.lastName.length < 2) {
+      setError("First Name and Last Name should be at least two characters long");
+      setLoading(false);
+      return;
+    }
+
+    // First and Last Name should be only alphabetic charaters
+    const nameRegex = /^[a-zA-Z]+$/;
+    if (!nameRegex.test(values.firstName) || !nameRegex.test(values.lastName)) {
+      setError("First Name and Last Name should only contain alphabets.");
+      setLoading(false);
+      return;
+    }
+
+    // Email test
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(values.email)) {
+      setError("Invalid email format!!!. Example of valid format: user@example.com");
+      setLoading(false);
+      return;
+    }
+
+    // Phone Number Validation
+    // const phoneRegex = /^(?:\+1\s?)?\(?(\d{3})\)?[\s.-]?(\d{3})[\s.-]?(\d{4})$/;
+    // const phoneRegex = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+    const phoneRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/; //WORK ON PHONE FORMAT WITH libphonenumber-js on frontend and backend
+    if (!phoneRegex.test(values.phoneNumber)) {
+      setError("Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'");
+      setLoading(false);
+      return;
+    }
+
+    // Password validation
+    const schema = new PasswordValidator();
+
+    schema
+      .is().min(6) // Minimum length 6
+      .has().uppercase() // Must have uppercase letters
+      .has().lowercase() // Must have lowercase letters
+      .has().digits() // Must have digits
+      .has().not().spaces() // Should not have spaces
+      .has().symbols() // Must have symbols
+
+    const validatePassword = (password) => schema.validate(password);
+    if (!validatePassword(values.password)) {
+      setError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(`api/v1/users/register`, values); // POST values from the register form
-      console.log("Response: ",response.data);
-      if (response.data.status === "success") {
+      console.log("Response in register: ",response.data);
+      if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
 
         // Redirect to the specified page or to '/cart' by default
@@ -68,6 +122,7 @@ const Register = () => {
         setError("An error occurred. Please try again later.");
       }
     } finally {
+      setValues({...values, password: ""}); // Clears password field
       setLoading(false); // This hides spinner after register attempt
     }
   }
@@ -81,6 +136,10 @@ const Register = () => {
           <div className='registerHeading'><strong>Let's create your account.</strong></div>
           <form action="" onSubmit={handleSubmit}>
             <div>
+              {/* Displays error and success messages */}
+              { error && <h1 className='error-message'>{error}</h1> }
+              { success && <h1 className='success-message'>{success}</h1> }
+
               <label htmlFor="firstName" className='registerLabel'><strong>First Name: </strong></label>
               <input
                 type="text"
@@ -122,7 +181,7 @@ const Register = () => {
             <div>
               <label htmlFor="number" className='registerLabel'><strong>Phone Number: </strong></label>
               <input
-                type="text"
+                type="tel"
                 placeholder="Enter Phone Number"
                 name="number"
                 id="number"
@@ -132,23 +191,24 @@ const Register = () => {
                 onChange={e => setValues({...values, phoneNumber: e.target.value})}
               />
             </div>
-            <div>
-              <label htmlFor="password" className='registerLabel'><strong>Password: </strong></label>
-              <input
-                type="password"
-                placeholder="Enter password"
-                name="password"
-                id="password"
-                autoComplete="on"
-                className="registerInputField"
-                value={values.password} // This makes the use input remain
-                onChange={e => setValues({...values, password: e.target.value})}
-              />
+            <div className="registerPasswordContainer">
+              <label htmlFor="password" className="registerPasswordLabel"><strong>Password: </strong></label>
+              <div className="registerInputPasswordField">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter password"
+                  name="password"
+                  id="password"
+                  autoComplete="on"
+                  className="registerPasswordInput"
+                  value={values.password} // This makes the use input remain
+                  onChange={e => setValues({...values, password: e.target.value})}
+                />
+                <div onClick={() => setShowPassword(!showPassword)} className="registerEyeIcon">
+                  {showPassword ? <LiaEyeSlashSolid /> : < LiaEyeSolid />}
+                </div>
+              </div>
             </div>
-
-            {/* Displays error and success messages */}
-            { error && <h1 className='error-message'>{error}</h1> }
-            { success && <h1 className='success-message'>{success}</h1> }
 
             <button type='submit' className="registerButton">Register</button>
 

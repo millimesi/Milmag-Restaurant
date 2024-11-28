@@ -1,5 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { useConfirm } from 'material-ui-confirm';
 import "../stylesheets/Cart.css";
+import "../stylesheets/errorSuccess.css";
 import { cartContext } from '../context/context.jsx';
 import { FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
 import { MdDelete } from "react-icons/md";
@@ -10,7 +12,9 @@ import { useNavigate } from 'react-router-dom';
 const Cart = () => {
   const { state: cartItems, dispatch } = useContext(cartContext);
   const navigate = useNavigate();
-  // const [ error, seterror ] = useState(null);
+  const confirm = useConfirm();
+  const [ error, setError ] = useState(null);
+  const [ success, setSuccess ] = useState(null);
 
   // Functions to handle quantity updates, using `dispatch`
   const incrementQuantity = (item) => {
@@ -22,6 +26,39 @@ const Cart = () => {
       dispatch({ type: 'DECREMENT_QUANTITY', payload: item.id });
     }
   };
+
+  const handleDelete = async(item) => {
+    // console.log("Item", item);
+    if (!item) {
+      setError("Item is undefined");
+      setTimeout(() => setError(null), 3000); // Clear error
+      return;
+    }
+
+    setSuccess(null);
+    setError(null);
+
+    try {
+      await confirm({
+        title: "Delete Item?",
+        description:`Are you sure you want to remove ${item.name} from your cart?`, // ${item.name}
+        confirmationText: "Delete now",
+        cancellationText: "Keep Item"
+      });
+      // If "Delete now" is clicked
+      dispatch({ type:"DELETE_ITEM", payload:item.id }); // , payload:item.id
+
+      // Show success message
+      setSuccess("Deleted successfully!");
+      setTimeout(() => setSuccess(""), 3000); // Clear message after 3 seconds
+    } catch (error) {
+      if (error === "cancel") {
+        console.log("User choose to keep Item");
+      } else {
+        console.log("Error in handleDelete: ", error);
+      }
+    }
+  }
 
   // Helper function to construct image path
   const getImagePath = (imagePath) => {
@@ -47,6 +84,11 @@ const Cart = () => {
       {/* Conditional rendering based on cartItems length */}
       {cartItems.length === 0 ? (
         <div className='emptyCart'>
+
+          {/* Display error or success messages */}
+          {error && <div className="error-message">{error}</div>}
+          {success && <div className="success-message">{success}</div>}
+
           <FaCartShopping className='emptyCartIcon'/>
           <p className="emptyCartMessage">Your Cart is Empty</p>
           <p className="emptyCartSubtext">Add items to see them here!</p>
@@ -57,6 +99,11 @@ const Cart = () => {
       ) : (
         <>
           <table className="cart-table">
+
+          {/* Display error or success messages */}
+          {error && <div className="error-message">{error}</div>}
+          {success && <div className="success-message">{success}</div>}
+
           <thead>
             <tr>
               <th>Image</th> 
@@ -85,7 +132,7 @@ const Cart = () => {
                       <FaMinusCircle onClick={() => decrementQuantity(item)} />
                       <span>{item.quantity}</span>
                       <FaPlusCircle onClick={() => incrementQuantity(item)} />
-                      <MdDelete className='delete-cart' onClick={() => dispatch({ type:"DELETE_ITEM", payload:item.id })}/>
+                      <MdDelete className='delete-cart' onClick={() => handleDelete(item)}/>
                     </div>
                   </td>
                   <td>${item.quantity * item.price}</td>

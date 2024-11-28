@@ -29,7 +29,7 @@ export const Context = (props) => {
            return [...state, { ...action.payload.item, quantity: action.payload.quantity }]
         };
       case "INCREMENT_QUANTITY":
-        console.log("State", state);
+        // console.log("State", state);
         return state.map((cartItem) =>
           cartItem.id === action.payload
             ? { ...cartItem, quantity: cartItem.quantity + 1 }

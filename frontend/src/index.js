@@ -1,4 +1,5 @@
 import React from 'react';
+import { ConfirmProvider } from "material-ui-confirm";
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -9,9 +10,26 @@ import { Context } from './context/context.jsx';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Context>
-      <App />
-    </Context>
+    <ConfirmProvider
+      defaultOptions={{
+      dialogProps: {
+        sx: { "& .MuiDialog-paper": { backgroundColor: "#f0f0f0" } }, // Example: Set background color
+      },
+      titleProps: {
+        style: { color: "rgb(128, 0, 0)", fontWeight: "bold" }, // Example: Set title text color
+      },
+      confirmationButtonProps: {
+        style: { backgroundColor: "rgb(128, 0, 0)", color: "white", fontWeight: 800 }, // Style for "Delete now"
+      },
+      cancellationButtonProps: {
+        style: { backgroundColor: "rgb(128, 0, 0)", color: "white", fontWeight: 800 }, // Style for "Not now"
+      },
+    }}
+    >
+      <Context>
+        <App />
+      </Context>
+    </ConfirmProvider>
   </React.StrictMode>
 );
 

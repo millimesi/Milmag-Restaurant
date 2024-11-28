@@ -61,7 +61,7 @@ export const register = async (req, res) => {
     // Phone Number Validation
     // const phoneRegex = /^(?:\+1\s?)?\(?(\d{3})\)?[\s.-]?(\d{3})[\s.-]?(\d{4})$/;
     // const phoneRegex = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-    const phoneRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/;
+    const phoneRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/; //WORK ON PHONE FORMAT WITH libphonenumber-js on frontend and backend
     if (!phoneRegex.test(phoneNumber)) {
       return res.status(400).json({ message: "Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'" });
     }
@@ -149,23 +149,29 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     // Check if token already exists, indicating the user is logged in
-    const existingToken = req.cookies.token || req.headers['authorization'];
-    if (existingToken) {
-      try {
-        // Verify the existing token
-        const decoded = jwt.verify(existingToken, process.env.JWTSECRET);
+    // const existingToken = req.cookies.token || req.headers['authorization'];
+    // if (existingToken) {
+    //   try {
+    //     // Verify the existing token
+    //     const decoded = jwt.verify(existingToken, process.env.JWTSECRET);
         
-        // If token is valid, return a message saying user is already logged in
-        return res.status(200).json({ message: "You are already logged in" });
-      } catch (error) {
-        // If token is invalid or expired, continue with login
-        console.log("Existing token is invalid or expired. Proceeding with login...");
-      }
-    }
+    //     // If token is valid, return a message saying user is already logged in
+    //     return res.status(200).json({ message: "You are already logged in" });
+    //   } catch (error) {
+    //     // If token is invalid or expired, continue with login
+    //     console.log("Existing token is invalid or expired. Proceeding with login...");
+    //   }
+    // }
 
     // Get all fields
     if (!(email && password)) {
       return res.status(400).json({ message: "All fields(email and password) are compulsory!!!" });
+    }
+
+    // Email test
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: "Invalid email format!!!. Example of valid format: user@example.com" })
     }
 
     const existingUser = await User.findOne({ where: { email: email.toLowerCase() } });

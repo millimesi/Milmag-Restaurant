@@ -29,6 +29,14 @@ const ForgotPassword = () => {
       return;
     }
 
+    // Email test
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(values.email)) {
+      setError("Invalid email format!!!. Example of valid format: user@example.com");
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(null); // Reset error before new login attempt
     setSuccess(null);  // Reset success message

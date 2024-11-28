@@ -81,3 +81,56 @@
 .registerLogin button:hover {
   color: rgb(155, 2, 2);
 }
+
+/* password container */
+.registerPasswordContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.registerPasswordLabel {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: rgb(80, 0, 0);
+  font-weight: bold;
+}
+
+.registerInputPasswordField {
+  position: relative;
+  width: 100%;
+}
+
+.registerPasswordInput {
+  width: 100%;
+  padding: 0.8rem;
+  padding-right: 2.5rem; /* Reserve space for the eye icon */
+  margin: 0;
+  border: 1px solid rgb(128, 0, 0);
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.registerPasswordInput:focus {
+  border: 2px solid rgb(155, 2, 2);
+  outline: none;
+  box-shadow: 0 0 3px rgba(155, 2, 2, 0.5);
+}
+
+.registerEyeIcon {
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: rgb(128, 0, 0);
+  transition: color 0.3s ease;
+  font-size: 1.5rem;
+}
+
+.registerEyeIcon:hover {
+  color: rgb(155, 2, 2);
+}
