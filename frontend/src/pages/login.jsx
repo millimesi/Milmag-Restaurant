@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../stylesheets/login.css';
 import '../stylesheets/errorSuccess.css';
 import Logoo from '../components/Logoo';
+import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
 
 const Login = () => {
   const [ values, setValues ] = useState({
@@ -15,6 +16,7 @@ const Login = () => {
   const [ loading, setLoading ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ success, setSuccess ] = useState(null);
+  const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,6 +32,13 @@ const Login = () => {
     if (!values.email || !values.password) {
       setError("All fields are required.");
       // setLoading(false);
+      return;
+    }
+
+    // Email test
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(values.email)) {
+      setError("Invalid email format. Example of valid email format: user@example.com");
       return;
     }
 
@@ -102,6 +111,10 @@ const Login = () => {
 
           <form action="" onSubmit={handleSubmit} className=''>
             <div className=''>
+              {/* Display error or success messages */}
+              {error && <div className="error-message">{error}</div>}
+              {success && <div className="success-message">{success}</div>}
+
               <label htmlFor="email" className='loginLabel'><strong>Email: </strong></label>
               <input
                 type="email"
@@ -114,23 +127,24 @@ const Login = () => {
                 onChange={e => setValues({...values, email: e.target.value})}
               />
             </div>
-            <div className=''>
-              <label htmlFor="password" className='loginLabel'><strong>Password: </strong></label>
-              <input
-                type="password"
+            <div className="loginPasswordContainer">
+              <label htmlFor="password" className="loginPasswordLabel"><strong>Password: </strong></label>
+              <div className="loginInputPasswordField">
+                <input
+                type={showPassword ? "text" : "password"} // Controls Password Visibility
                 placeholder="Enter password"
                 name="password"
                 autoComplete="on"
                 id="password"
-                className="loginInputField"
+                className="loginPasswordInput"
                 value={values.password}
                 onChange={e => setValues({...values, password: e.target.value})}
-              />
+                />
+                <div onClick={() => setShowPassword(!showPassword)} className="loginEyeIcon">
+                  {showPassword ? <LiaEyeSlashSolid /> : < LiaEyeSolid />}
+                </div>
+              </div>
             </div>
-
-            {/* Display error or success messages */}
-            {error && <div className="error-message">{error}</div>}
-            {success && <div className="success-message">{success}</div>}
 
             <button type='submit' className='loginButton'><strong>LOGIN</strong></button>
 
