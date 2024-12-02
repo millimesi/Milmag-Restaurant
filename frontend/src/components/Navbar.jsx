@@ -19,14 +19,14 @@ const NavBar = () => {
     isActive ? "navbarlinkActive px-3 py-2" : "navbarlink px-3 py-2";
 
   const isAuthenticated = !!localStorage.getItem("token");
-  
+
   const handleCartClick = () => {
     if (isAuthenticated) {
-      navigate('/cart')
+      navigate("/cart");
     } else {
-      navigate('/login', { state: { redirectTo: '/cart' }});
+      navigate("/login", { state: { redirectTo: "/cart" } });
     }
-  }
+  };
 
   const handleLogout = () => {
     // Remove the token from localStorage
@@ -37,7 +37,7 @@ const NavBar = () => {
 
     // Redirect user to the home page
     navigate("/");
-  }
+  };
 
   // Conditionally set the background color based on the route
   const isHomePage = location.pathname === "/";
@@ -54,7 +54,7 @@ const NavBar = () => {
       <p
         className="Logoo"
         style={{
-          position : isHomePage ? "fixed" : "",
+          position: isHomePage ? "fixed" : "",
         }}
       >
         <img src={Logo} alt="Milmag Logo" />
@@ -65,7 +65,7 @@ const NavBar = () => {
       <div
         className="d-flex justify-content-end px-5 pt-3 pb-3 navbar-container"
         style={{
-          position : isHomePage ? "fixed" : "",
+          position: isHomePage ? "fixed" : "",
         }}
       >
         {/* <NavLink className={navBarLink} to="/">
@@ -83,10 +83,9 @@ const NavBar = () => {
         <a href="#contact-section" className="navbarlink px-3 py-2">
           CONTACT US
         </a> */}
-        <NavLink className={navBarLink} to="#">
+        <NavLink className={navBarLink} to="/reservation">
           RESERVATIONS
         </NavLink>
-
 
         {/* Conditionally render Login and Register based on authentication status */}
         {!isAuthenticated && (
@@ -100,21 +99,25 @@ const NavBar = () => {
             {/* <NavLink className={navBarLink} onClick={handleLogout}>
               LOGOUT
             </NavLink> */}
-        </>
+          </>
         )}
 
         {/* Conditionally render Logout based on authentication status */}
         {isAuthenticated && (
           <>
-            <NavLink className={navBarLink} onClick={handleLogout}> {/*This logout link was added for testing purposes. It will be removed */}
+            <NavLink className={navBarLink} onClick={handleLogout}>
+              {" "}
+              {/*This logout link was added for testing purposes. It will be removed */}
               LOGOUT
             </NavLink>
           </>
         )}
 
-        <NavLink className='shoppingCartContainer' onClick={handleCartClick} >
-          <FaCartShopping className="shoppingCarts"/>
-          {totalItemQuantity > 0 && <span className="cart-count">{totalItemQuantity}</span>}
+        <NavLink className="shoppingCartContainer" onClick={handleCartClick}>
+          <FaCartShopping className="shoppingCarts" />
+          {totalItemQuantity > 0 && (
+            <span className="cart-count">{totalItemQuantity}</span>
+          )}
         </NavLink>
       </div>
     </div>

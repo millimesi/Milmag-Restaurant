@@ -1,0 +1,20 @@
+.reservation h1 {
+  text-align: center;
+}
+
+.reservation p {
+  text-align: center;
+  font-weight: bold;
+}
+
+.reservation-selector {
+  width: 70vw;
+  margin-left: 20%;
+  text-align: left;
+  background-color: aquamarine;
+}
+
+.react-datepicker__day--selected {
+  background-color: rgb(129, 22, 22) !important;
+  color: white !important; /* Optional: Ensure text is readable */
+}
