@@ -8,6 +8,7 @@ import '../stylesheets/passwordReset.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PasswordValidator from 'password-validator';
 import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
+import { ToastContainer, toast } from 'react-toastify';
 
 const PasswordReset = () => {
   const location = useLocation();
@@ -22,8 +23,8 @@ const PasswordReset = () => {
     // resetLink: ""
   });
   const [ loading, setLoading ] = useState(false);
-  const [ error, setError ] = useState(null);
-  const [ success, setSuccess ] = useState(null);
+  // const [ error, setError ] = useState(null);
+  // const [ success, setSuccess ] = useState(null);
     const [ showPassword, setShowPassword ] = useState(false);
   // const navigate = useNavigate();
   // const location = useLocation();
@@ -35,7 +36,8 @@ const PasswordReset = () => {
 
     // Basic validation
     if (!values.newPassword || !values.confirmPassword) {
-      setError("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
+      // setError("Please fill in all fields.");
       // setLoading(false);
       return;
     }
@@ -53,19 +55,21 @@ const PasswordReset = () => {
 
     const validatePassword = (password) => schema.validate(password);
     if (!validatePassword(values.password)) {
-      setError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
+      toast.error("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
+      // setError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
       setLoading(false);
       return;
     }
 
     if (values.newPassword !== values.confirmPassword) {
-        setError("Passwords do not match. Please try again.");
-        return;
+      toast.error("Passwords do not match. Please try again.");
+      // setError("Passwords do not match. Please try again.");
+      return;
     }
 
     setLoading(true);
-    setError(null); // Reset error before new passwordReset attempt
-    setSuccess(null);  // Reset success message
+    // setError(null); // Reset error before new passwordReset attempt
+    // setSuccess(null);  // Reset success message
 
     try {
       const response = await axios.put(`/api/v1/users/resetPassword`, {
@@ -87,9 +91,11 @@ const PasswordReset = () => {
 
       // Capture error details for specific client feedback
       if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message)
+        // setError(error.response.data.message);
       } else {
-        setError("An error occurred. Please try again later.");
+        toast.error("An error occurred. Please try again later.")
+        // setError("An error occurred. Please try again later.");
       }
     } finally {
         setLoading(false); // This hides spinner after login attempt
@@ -104,14 +110,16 @@ const PasswordReset = () => {
   return (
     <div className=''>
       <NavBar />
+      <ToastContainer position="top-right" autoClose={5000} closeOnClick={true} pauseOnHover={true} draggable={true}/>
       <div className='passwordResetContainer'>
         <div className='passwordResetDiv'>
           <div className='passwordResetHeading'><strong>Forgot Password</strong></div>
           <Logoo />
           <form action='' onSubmit={handleSubmit} className="">
+
             {/* Display error or success messages */}
-            {error && <div className="error-message">{error}</div>}
-            {success && <div className="success-message">{success}</div>}
+            {/* {error && <div className="error-message">{error}</div>} */}
+            {/* {success && <div className="success-message">{success}</div>} */}
 
             <div className="passwordResetPasswordContainer">
               <label htmlFor="email" className="passwordResetPasswordLabel"><strong>New Password: </strong></label>
