@@ -8,6 +8,7 @@ import '../stylesheets/errorSuccess.css';
 import Logoo from '../components/Logoo.jsx';
 import PasswordValidator from 'password-validator';
 import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
   const [ values, setValues ] = useState({
@@ -18,8 +19,8 @@ const Register = () => {
     phoneNumber: ""
   });
   const [ loading, setLoading ] = useState(false);
-  const [ error, setError ] = useState(null);
-  const [ success, setSuccess ] = useState(null);
+  // const [ error, setError ] = useState(null);
+  // const [ success, setSuccess ] = useState(null);
   const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,19 +32,21 @@ const Register = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccess(null);
-    setError(null);
+    // setSuccess(null);
+    // setError(null);
 
     // Basic validation
     if (!values.firstName || !values.lastName || !values.email || !values.password || !values.phoneNumber) {
-      setError("All fields are required.");
+      toast.error("All fields are required.");
+      // setError("All fields are required.");
       setLoading(false);
       return;
     }
 
     // First and Last Name validation of 2 letters
     if (values.firstName.length < 2 || values.lastName.length < 2) {
-      setError("First Name and Last Name should be at least two characters long");
+      toast.error("First Name and Last Name should be at least two characters long");
+      // setError("First Name and Last Name should be at least two characters long");
       setLoading(false);
       return;
     }
@@ -51,7 +54,8 @@ const Register = () => {
     // First and Last Name should be only alphabetic charaters
     const nameRegex = /^[a-zA-Z]+$/;
     if (!nameRegex.test(values.firstName) || !nameRegex.test(values.lastName)) {
-      setError("First Name and Last Name should only contain alphabets.");
+      toast.error("First Name and Last Name should only contain alphabets.");
+      // setError("First Name and Last Name should only contain alphabets.");
       setLoading(false);
       return;
     }
@@ -59,7 +63,8 @@ const Register = () => {
     // Email test
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(values.email)) {
-      setError("Invalid email format!!!. Example of valid format: user@example.com");
+      toast.error("Invalid email format!!!. Example of valid format: user@example.com");
+      // setError("Invalid email format!!!. Example of valid format: user@example.com");
       setLoading(false);
       return;
     }
@@ -69,7 +74,8 @@ const Register = () => {
     // const phoneRegex = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
     const phoneRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/; //WORK ON PHONE FORMAT WITH libphonenumber-js on frontend and backend
     if (!phoneRegex.test(values.phoneNumber)) {
-      setError("Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'");
+      toast.error("Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'");
+      // setError("Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'");
       setLoading(false);
       return;
     }
@@ -87,7 +93,8 @@ const Register = () => {
 
     const validatePassword = (password) => schema.validate(password);
     if (!validatePassword(values.password)) {
-      setError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
+      toast.error("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
+      // setError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
       setLoading(false);
       return;
     }
@@ -102,24 +109,27 @@ const Register = () => {
         const redirectTo = location.state?.redirectTo || '/cart';
         navigate(redirectTo);
       } else {
-        setError(response.data.message || "Registration failed.");
+        toast.error(response.data.message || "Registration failed.");
+        // setError(response.data.message || "Registration failed.");
       }
 
        // Clear success message after 3 seconds
-      const timer = setTimeout(() => {
-        setSuccess(null);
-      }, 3000);
+      // const timer = setTimeout(() => {
+      //   setSuccess(null);
+      // }, 3000);
 
       // Cleanup timeout on unmount
-      return () => clearTimeout(timer);
+      // return () => clearTimeout(timer);
     } catch (error) {
       console.error('Fetch error in Register:', error);
       
       // Capture error details for specific client feedback
       if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
+        // setError(error.response.data.message);
       } else {
-        setError("An error occurred. Please try again later.");
+        toast.error("An error occurred. Please try again later.");
+        // setError("An error occurred. Please try again later.");
       }
     } finally {
       setValues({...values, password: ""}); // Clears password field
@@ -130,6 +140,7 @@ const Register = () => {
   return (
     <div>
       <NavBar />
+      <ToastContainer position="top-right" autoClose={5000} closeOnClick={true} pauseOnHover={true} draggable={true}/>
       <div className='registerContainer'>
         <div className='registerDiv'>
           <Logoo />
@@ -137,8 +148,8 @@ const Register = () => {
           <form action="" onSubmit={handleSubmit}>
             <div>
               {/* Displays error and success messages */}
-              { error && <h1 className='error-message'>{error}</h1> }
-              { success && <h1 className='success-message'>{success}</h1> }
+              {/* { error && <h1 className='error-message'>{error}</h1> } */}
+              {/* { success && <h1 className='success-message'>{success}</h1> } */}
 
               <label htmlFor="firstName" className='registerLabel'><strong>First Name: </strong></label>
               <input
