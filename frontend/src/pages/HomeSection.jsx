@@ -50,7 +50,7 @@ const HomeSection = () => {
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!
             </div>
             <button>
-              <NavLink className="ordernow" to="/food">
+              <NavLink className="ordernow" to="/food/pizza">     {/*Navigate to Pizza */}
                 Order Now
               </NavLink>
             </button>
@@ -64,7 +64,7 @@ const HomeSection = () => {
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!
             </div>
             <button>
-              <NavLink className="ordernow" to="/food">
+              <NavLink className="ordernow" to="/food/salad"> {/*Navigate to Salad */}
                 Order Now
               </NavLink>
             </button>
@@ -78,7 +78,7 @@ const HomeSection = () => {
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!
             </div>
             <button>
-              <NavLink className="ordernow" to="/food">
+              <NavLink className="ordernow" to="/drinks/softdrinks"> {/*Navigate to Drinks but this is not working as expected*/}
                 Order Now
               </NavLink>
             </button>

@@ -66,11 +66,10 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'" });
     }
 
-    const existingUser = await User.findOne({ where: { email: req.body.email } });
-    if (existingUser) {
-      return res.status(400).json({ message: 'Email already in use' });
-    }
-
+    // const existingUser = await User.findOne({ where: { email: req.body.email } });
+    // if (existingUser) {
+    //   return res.status(400).json({ status: "error", message: "Email already in use" });
+    // }
 
     // Password validation
     const schema = new PasswordValidator();
@@ -140,7 +139,11 @@ export const register = async (req, res) => {
     }); // newUser
   } catch (error) {
     console.error("Registration error: ", error);
-    res.status(400).json({ error: error.message });
+    // Specific error handling for unique constraint violations
+    // if (error.name === 'SequelizeUniqueConstraintError') {
+    //   return res.status(400).json({ message: "Email already exists." });
+    // }
+    // res.status(500).json({ error: error.message, message: "Server error. Please try again later." });
   }
 };
 
@@ -203,7 +206,7 @@ export const login = async (req, res) => {
         email: existingUser.email,
         isAdmin: existingUser.isAdmin
       }
-
+      // console.log("safeUser in Login: ", safeUser);
       return res.status(200).cookie("token", token, options).json({
           status: "success",
           token,
@@ -276,7 +279,7 @@ export const forgotPassword = async(req, res) => {
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).json({message: "User not found"});
+      return res.status(404).json({message: `${email} not found`});
     }
 
     const token = jwt.sign(
