@@ -85,6 +85,21 @@ const SingleMenu = ({ item }) => {
             </div>
             <div className='text-center my-3'>
               <div className='d-flex justify-content-center align-items-center'>
+                {/* Conditonal rendering of cart status */}
+                {/* <div>
+                  {quantity > 0 ? (
+                  <FaMinusCircle className='mx-2 plusMinus' onClick={decrementQuantity}/>
+                  <span className='mx-2'>{quantity}</span>
+                  <FaPlusCircle className='mx-2 plusMinus' onClick={incrementQuantity}/>
+                  <FaCartShopping className='mx-3 shoppingCart' onClick={addToCart}/>
+                ) : (
+
+                )}
+                </div> */}
+
+
+
+
                 <FaMinusCircle className='mx-2 plusMinus' onClick={decrementQuantity}/>
                 <span className='mx-2'>{quantity}</span>
                 <FaPlusCircle className='mx-2 plusMinus' onClick={incrementQuantity}/>

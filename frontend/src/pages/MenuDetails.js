@@ -14,8 +14,6 @@ const MenuDetails = () => {
 
   // Access cart state from context
   const { state: cartItems, dispatch } = useContext(cartContext);
-  // const [ error, setError ] = useState(null);
-  // const [ success, setSuccess ] = useState(null);
 
   // Check if item is in cart and set initial quantity accordingly
   const cartItem = cartItems.find(item => item.id === menu.id);
@@ -52,24 +50,15 @@ const MenuDetails = () => {
   const handleAddToCart = () => {
     if (quantity < 1) {
       toast.error("Please indicate a quantity before adding to cart");
-      // setError("Please indicate a quantity before adding to cart");
-      // setSuccess(null);
       return;
     } else {
-      // setError(""); // Clear error if quantity is valid
       // Dispatch ADD action with the selected quantity
       dispatch({
         type: "ADD",
         payload: { item: menu, quantity },
       });
       toast.success("Item added to cart successfully!");
-      // setSuccess("Item added to cart successfully!") // Sets success message
     }
-
-    // Clears success message after 3 secs
-    // setTimeout(() => {
-    //   setSuccess("");
-    // }, 3000);
   };
 
   return (
@@ -111,10 +100,6 @@ const MenuDetails = () => {
                 <FaPlusCircle className='mx-2 minusPlus' onClick={incrementQuantity}/>
               </div>
             </div>
-
-            {/* Displays error and success messages */}
-            {/* { error && <h1 className='error-message-MenuDetails'>{error}</h1> } */}
-            {/* { success && <h1 className='success-message'>{success}</h1> } */}
 
             <div className='d-flex justify-content-center align-items-center mt-4'>
               <button className='quantityButton mx-3' onClick={handleBackClick}><strong>CANCEL</strong></button>

@@ -14,8 +14,6 @@ const Cart = () => {
   const { state: cartItems, dispatch } = useContext(cartContext);
   const navigate = useNavigate();
   const confirm = useConfirm();
-  // const [ error, setError ] = useState(null);
-  // const [ success, setSuccess ] = useState(null);
 
   // Functions to handle quantity updates, using `dispatch`
   const incrementQuantity = (item) => {
@@ -32,13 +30,8 @@ const Cart = () => {
     // console.log("Item", item);
     if (!item) {
       toast.error("Item is undefined");
-      // setError("Item is undefined");
-      // setTimeout(() => setError(null), 3000); // Clear error
       return;
     }
-
-    // setSuccess(null);
-    // setError(null);
 
     try {
       await confirm({
@@ -50,12 +43,6 @@ const Cart = () => {
       // If "Delete now" is clicked
       dispatch({ type:"DELETE_ITEM", payload:item.id }); // , payload:item.id
 
-      // Show success message
-      // setSuccess("Deleted successfully!");
-      // setTimeout(() => setSuccess(""), 3000); // Clear message after 3 seconds
-
-      // Display success toast
-      // toast.success(`${item.name} deleted successfully!`);
       toast.success(`${item.name} deleted successfully!`);
 
     } catch (error) {
@@ -87,16 +74,12 @@ const Cart = () => {
   return (
     <>
       <NavBar />
-      <ToastContainer position="top-right" autoClose={3000} closeOnClick={true} pauseOnHover={true} draggable={true}/>
+      <ToastContainer position="top-right" autoClose={3000} closeOnClick={true} pauseOnHover={true} draggable={true} />
       <h2 className='cart-details'>Cart Details</h2>
 
       {/* Conditional rendering based on cartItems length */}
       {cartItems.length === 0 ? (
         <div className='emptyCart'>
-
-          {/* Display error or success messages */}
-          {/* {error && <div className="error-message">{error}</div>} */}
-          {/* {success && <div className="success-message">{success}</div>} */}
 
           <FaCartShopping className='emptyCartIcon'/>
           <p className="emptyCartMessage">Your Cart is Empty</p>
@@ -108,10 +91,6 @@ const Cart = () => {
       ) : (
         <>
           <table className="cart-table">
-
-          {/* Display error or success messages */}
-          {/* {error && <div className="error-message">{error}</div>} */}
-          {/* {success && <div className="success-message">{success}</div>} */}
 
           <thead>
             <tr>

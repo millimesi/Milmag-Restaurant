@@ -19,11 +19,11 @@ const Register = () => {
     phoneNumber: ""
   });
   const [ loading, setLoading ] = useState(false);
-  // const [ error, setError ] = useState(null);
-  // const [ success, setSuccess ] = useState(null);
   const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  axios.defaults.withCredentials = true;
 
   if (loading) {
     return <Spinner loading={loading} />
@@ -31,14 +31,11 @@ const Register = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    setLoading(true);
-    // setSuccess(null);
-    // setError(null);
+    // setLoading(true);
 
     // Basic validation
     if (!values.firstName || !values.lastName || !values.email || !values.password || !values.phoneNumber) {
       toast.error("All fields are required.");
-      // setError("All fields are required.");
       setLoading(false);
       return;
     }
@@ -46,7 +43,6 @@ const Register = () => {
     // First and Last Name validation of 2 letters
     if (values.firstName.length < 2 || values.lastName.length < 2) {
       toast.error("First Name and Last Name should be at least two characters long");
-      // setError("First Name and Last Name should be at least two characters long");
       setLoading(false);
       return;
     }
@@ -55,7 +51,6 @@ const Register = () => {
     const nameRegex = /^[a-zA-Z]+$/;
     if (!nameRegex.test(values.firstName) || !nameRegex.test(values.lastName)) {
       toast.error("First Name and Last Name should only contain alphabets.");
-      // setError("First Name and Last Name should only contain alphabets.");
       setLoading(false);
       return;
     }
@@ -64,7 +59,6 @@ const Register = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(values.email)) {
       toast.error("Invalid email format!!!. Example of valid format: user@example.com");
-      // setError("Invalid email format!!!. Example of valid format: user@example.com");
       setLoading(false);
       return;
     }
@@ -75,7 +69,6 @@ const Register = () => {
     const phoneRegex = /^[+]{1}(?:[0-9\-\\(\\)\\/.]\s?){6,15}[0-9]{1}$/; //WORK ON PHONE FORMAT WITH libphonenumber-js on frontend and backend
     if (!phoneRegex.test(values.phoneNumber)) {
       toast.error("Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'");
-      // setError("Invalid Phone Number Format. Example of valid phone number format is '+1 (555) 123-4567'");
       setLoading(false);
       return;
     }
@@ -94,20 +87,36 @@ const Register = () => {
     const validatePassword = (password) => schema.validate(password);
     if (!validatePassword(values.password)) {
       toast.error("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
-      // setError("Password must contain at least one uppercase letter, one lowercase letter, one digit, one symbol, and be a minimum of 6 characters long.");
       setLoading(false);
       return;
     }
 
     try {
+      // console.log("Values in Register: ", values);
       const response = await axios.post(`api/v1/users/register`, values); // POST values from the register form
-      console.log("Response in register: ",response.data);
-      if (response.status === 200) {
+      // console.log("Response in register: ", response);
+      // console.log("Response data message in register: ", response.data.message);
+      if (response.status === 201) {
         localStorage.setItem("token", response.data.token);
+        
+        toast.success("User registered successfully!", {
+          autoClose: 1000,
+          onClose: () => {
+            const redirectTo = location.state?.redirectTo || '/cart';
+            navigate(redirectTo);
+        },
+      });
+
+
+        // toast.success("User registered successfully!");
 
         // Redirect to the specified page or to '/cart' by default
-        const redirectTo = location.state?.redirectTo || '/cart';
-        navigate(redirectTo);
+        // const redirectTo = location.state?.redirectTo || '/cart';
+        // navigate(redirectTo);
+
+      // } else if (response.data.message === "Email already in use") {
+      //  } else if (response.status === 400) {
+        // toast.error("Email is already in use. Register with a new email or reset password.");
       } else {
         toast.error(response.data.message || "Registration failed.");
         // setError(response.data.message || "Registration failed.");
@@ -122,14 +131,23 @@ const Register = () => {
       // return () => clearTimeout(timer);
     } catch (error) {
       console.error('Fetch error in Register:', error);
+
+      // Display error toast for specific feedback
+      // const errorMessage = error.response?.data?.message || "An error occurred. Please try again later.";
+      // toast.error(errorMessage);
       
       // Capture error details for specific client feedback
-      if (error.response && error.response.data && error.response.data.message) {
+      // if (error.response && error.response.data && error.response.data.message) {
+        // toast.error(error.response.data.message || "An error occurred!");
+      // } else {
+        // toast.error("An error occurred. Please try again later.");
+      // }
+
+      // Capture error details for specific client feedback
+      if (error.response && error.response.data) {
         toast.error(error.response.data.message);
-        // setError(error.response.data.message);
       } else {
         toast.error("An error occurred. Please try again later.");
-        // setError("An error occurred. Please try again later.");
       }
     } finally {
       setValues({...values, password: ""}); // Clears password field
@@ -147,10 +165,6 @@ const Register = () => {
           <div className='registerHeading'><strong>Let's create your account.</strong></div>
           <form action="" onSubmit={handleSubmit}>
             <div>
-              {/* Displays error and success messages */}
-              {/* { error && <h1 className='error-message'>{error}</h1> } */}
-              {/* { success && <h1 className='success-message'>{success}</h1> } */}
-
               <label htmlFor="firstName" className='registerLabel'><strong>First Name: </strong></label>
               <input
                 type="text"
