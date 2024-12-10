@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import NavBar from "../components/Navbar";
 import "./reservations.css";
@@ -16,6 +17,7 @@ function Reservation() {
   const [error, SetError] = useState(null);
   const [flashMessage, setFlashMessage] = useState(null);
   const [previousReservations, setPreviousReservations] = useState([]);
+  const [showPopover, setShowPopover] = useState(false);
 
   useEffect(() => {
     const fetchTables = async () => {
@@ -31,7 +33,7 @@ function Reservation() {
         const previousReservationsRes = await axios.post(
           "http://localhost:8080/api/v1/reservation/seeMyReservations",
           {
-            userId: "7406fbc7-31d3-4319-9817-68bd56af75f9",
+            userId: JSON.parse(localStorage.getItem("user")).id,
           }
         );
         setPreviousReservations(previousReservationsRes.data);
@@ -52,7 +54,7 @@ function Reservation() {
   };
 
   const handleSeeAvailavleSpots = async () => {
-    const userId = "7406fbc7-31d3-4319-9817-68bd56af75f9"; // this will be accessed from frontend authentication method
+    const userId = JSON.parse(localStorage.getItem("user")).id; // this will be accessed from frontend authentication method
     const formattedDate = new Date(date).toLocaleDateString("en-CA");
 
     const requestData = {
@@ -77,7 +79,7 @@ function Reservation() {
       reservationDate: new Date(date).toLocaleDateString("en-CA"),
       timeSlot: selectedTimeSlot,
       specialRequest: specialRequest || "",
-      userId: "7406fbc7-31d3-4319-9817-68bd56af75f9",
+      userId: JSON.parse(localStorage.getItem("user")).id,
       ReservationTableId: selectedTable,
     };
 
@@ -101,6 +103,20 @@ function Reservation() {
       console.log(error.message);
     }
   };
+
+  const togglePopover = () => {
+    setShowPopover((prev) => !prev);
+  };
+
+  const handleCancelReservation = async () => {
+    setSelectedTable("");
+    setSelectedTimeSlot("");
+    setSpecialRequest("");
+    setFlashMessage("");
+    setDate(new Date());
+    togglePopover();
+  };
+
   return (
     <div>
       <NavBar />
@@ -111,105 +127,143 @@ function Reservation() {
 
       {/* Display Available Tables with data picker*/}
       <section className="reservation-selector">
-        <h4>Available Tables</h4>
-        <ul className="tables">
+        <h5>Tables</h5>
+        <div className="tables">
           {loading ? (
-            <li>Loading Tables... </li>
+            <div>Loading Tables... </div>
           ) : error ? (
-            <li>Error: {error}</li>
+            <div>Error: {error}</div>
           ) : tables.length > 0 ? (
             tables.map((table) => (
-              <li key={table.id}>
-                Table Number: {table.id}, Seating Capacity:{" "}
-                {table.seatingCapacity}, Location: {table.location}
-              </li>
+              <div className="tableDesc" key={table.id}>
+                <img src="" alt="Table" />
+                <h5>Table {table.id}</h5>
+                <p>
+                  Seating Capacity: {table.seatingCapacity} Location:{" "}
+                  {table.location}
+                </p>
+              </div>
             ))
           ) : (
             <li>No tables available!</li>
           )}
-        </ul>
-        <h4>Previous Reservations: {previousReservations.length}</h4>
+        </div>
+        <h5>My Reservations</h5>
         {previousReservations.length > 0 && (
-          <ul>
-            {previousReservations.map((reservation) => (
-              <li key={reservation.id}>
-                Date: {reservation.reservationDate}, Time Slot:
-                {reservation.timeSlot}, Table Number:
-                {reservation.ReservationTableId}, Status: {reservation.status}
-              </li>
-            ))}
-          </ul>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Date</th>
+                <th>Time Slot</th>
+                <th>Table Number</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {previousReservations.map((reservation, index) => (
+                <tr key={reservation.id}>
+                  <td>{index + 1}</td>
+                  <td>{reservation.reservationDate}</td>
+                  <td>{reservation.timeSlot}</td>
+                  <td>{reservation.ReservationTableId}</td>
+                  <td>{reservation.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
-        <label htmlFor="date">Select Date:</label>
-        <DatePicker
-          filterDate={filterDates}
-          selected={date}
-          onChange={(date) => setDate(date)}
-        />
-        <button onClick={handleSeeAvailavleSpots}>See Avaialbles Spots</button>
 
-        {/* If availble tables exists show them make thr */}
-        {availableTables.length > 0 && (
-          <div>
-            <h3>
-              Available Reservation Spots on {date.toLocaleDateString("en-CA")}
-            </h3>
-            {availableTables.map((table) => (
-              <div key={table.ReservationTableId}>
-                <h4>TableNumber {table.ReservationTableId}</h4>
-                <ul>
-                  {table.availableTimeSlot.map((slot, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelectedTable(table.ReservationTableId);
-                        setSelectedTimeSlot(slot);
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor:
-                          selectedTable === table.ReservationTableId &&
-                          selectedTimeSlot === slot
-                            ? "rgb(129, 22, 22)"
-                            : "transparent",
-                        color:
-                          selectedTable === table.ReservationTableId &&
-                          selectedTimeSlot === slot
-                            ? "white"
-                            : "black",
-                      }}
-                    >
-                      {slot}
-                    </li>
-                  ))}
-                </ul>
+        {/* popover Content */}
+        {showPopover && (
+          <div className="makeReservation">
+            <label htmlFor="date">Select Date:</label>
+            <DatePicker
+              filterDate={filterDates}
+              selected={date}
+              onChange={(date) => setDate(date)}
+            />
+            <button onClick={handleSeeAvailavleSpots}>
+              See Avaialbles Spots
+            </button>
+
+            {/* If availble tables exists show them make thr */}
+            {availableTables.length > 0 && (
+              <div>
+                <h3>
+                  Available Reservation Spots on{" "}
+                  {date.toLocaleDateString("en-CA")}
+                </h3>
+                {availableTables.map((table) => (
+                  <div key={table.ReservationTableId}>
+                    <h4>TableNumber {table.ReservationTableId}</h4>
+                    <ul>
+                      {table.availableTimeSlot.map((slot, index) => (
+                        <li
+                          key={index}
+                          onClick={() => {
+                            setSelectedTable(table.ReservationTableId);
+                            setSelectedTimeSlot(slot);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                            backgroundColor:
+                              selectedTable === table.ReservationTableId &&
+                              selectedTimeSlot === slot
+                                ? "rgb(129, 22, 22)"
+                                : "transparent",
+                            color:
+                              selectedTable === table.ReservationTableId &&
+                              selectedTimeSlot === slot
+                                ? "white"
+                                : "black",
+                          }}
+                        >
+                          {slot}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+
+            {selectedTable && selectedTimeSlot && (
+              <div>
+                <label htmlFor="specialRequest">Special Request:</label>
+                <textarea
+                  id="specialRequest"
+                  value={specialRequest}
+                  onChange={(e) => setSpecialRequest(e.target.value)}
+                  placeholder="Add any special request here..."
+                />
+                <button onClick={togglePopover}>Continue</button>
+                <button onClick={handleCancelReservation}>Cancel</button>
+              </div>
+            )}
           </div>
         )}
-
-        {selectedTable && selectedTimeSlot && (
+        {selectedTable && selectedTimeSlot && specialRequest ? (
           <div>
-            <label htmlFor="specialRequest">Special Request:</label>
-            <textarea
-              id="specialRequest"
-              value={specialRequest}
-              onChange={(e) => setSpecialRequest(e.target.value)}
-              placeholder="Add any special request here..."
-            />
-
             <p>
               <strong>Reservation Summary:</strong>
               Date: {new Date(date).toLocaleDateString("en-CA")}, Table Number:{" "}
               {selectedTable}, Time Slot:
               {selectedTimeSlot}, Special Request: {specialRequest}
             </p>
-            <button onClick={handleMakeReservation}>Make Reservation</button>
+            <div className="buttons">
+              <button onClick={handleMakeReservation}>Make Reservation</button>
+              <button onClick={handleCancelReservation}>Cancel</button>
+            </div>
             {flashMessage && (
               <div>
                 <p>{flashMessage}</p>
               </div>
             )}
+          </div>
+        ) : (
+          <div className="buttons">
+            <button onClick={togglePopover}>Make New Reservation</button>
           </div>
         )}
       </section>

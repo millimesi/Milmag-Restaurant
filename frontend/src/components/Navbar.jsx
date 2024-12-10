@@ -28,9 +28,18 @@ const NavBar = () => {
     }
   };
 
+  const handleReservationClick = () => {
+    if (isAuthenticated) {
+      navigate("/reservation");
+    } else {
+      navigate("/login", { state: { redirectTo: "/reservation" } });
+    }
+  };
+
   const handleLogout = () => {
     // Remove the token from localStorage
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
     // Clear cookies
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
@@ -83,7 +92,7 @@ const NavBar = () => {
         <a href="#contact-section" className="navbarlink px-3 py-2">
           CONTACT US
         </a> */}
-        <NavLink className={navBarLink} to="/reservation">
+        <NavLink className={navBarLink} onClick={handleReservationClick}>
           RESERVATIONS
         </NavLink>
 
