@@ -10,6 +10,7 @@ import Register from '../pages/register.jsx';
 import Login from '../pages/login.jsx';
 import ForgotPassword from '../pages/forgotPassword.jsx';
 import PasswordReset from '../pages/passwordReset.jsx';
+import CartCheckout from '../pages/cartCheckout.jsx';
 
 const AppRoutes = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +32,7 @@ const AppRoutes = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/forgotPassword" element={<ForgotPassword/>} />
       <Route path="/passwordReset" element={<PasswordReset />} />
+      <Route path="/cartCheckout" element={<CartCheckout />} />
     </>
   )
 )

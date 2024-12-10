@@ -65,11 +65,22 @@ const Cart = () => {
     }
   };
 
+  // Authentication check
+  const isAuthenticated = !!localStorage.getItem("token");
+
+  const handleProceedToCheckout = () => {
+    if (isAuthenticated) {
+      navigate("/cartCheckout");
+    } else {
+      navigate("/login");
+    }
+  }
+
   // Total Menu Fee of Item
-  const menuFee = cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  // const menuFee = cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
 
   // Total Amount
-  const totalAmount = menuFee; // TO BE REVIEWED.
+  // const totalAmount = menuFee; // TO BE REVIEWED.
 
   return (
     <>
@@ -130,7 +141,7 @@ const Cart = () => {
           </tbody>
           </table>
 
-          <div className='summary-title'>BILL SUMMARY</div>
+          {/* <div className='summary-title'>BILL SUMMARY</div>
           <table className="summary-table">
             <thead>
               <tr>
@@ -160,10 +171,10 @@ const Cart = () => {
                 <td>${totalAmount.toFixed(2)}</td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
 
           <div>
-            <button className='checkoutButton'><strong>PROCEED TO CHECKOUT</strong></button>
+            <button className='checkoutButton' onClick={ handleProceedToCheckout }><strong>PROCEED TO CHECKOUT</strong></button>
           </div>
         </>
       )}
