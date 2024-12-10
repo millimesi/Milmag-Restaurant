@@ -18,14 +18,19 @@ const NavBar = () => {
   const navBarLink = ({ isActive }) =>
     isActive ? "navbarlinkActive px-3 py-2" : "navbarlink px-3 py-2";
 
+  // Authentication check
   const isAuthenticated = !!localStorage.getItem("token");
   
+  // const handleCartClick = () => {
+  //   if (isAuthenticated) {
+  //     navigate('/cart')
+  //   } else {
+  //     navigate('/login', { state: { redirectTo: '/cart' }});
+  //   }
+  // }
+
   const handleCartClick = () => {
-    if (isAuthenticated) {
-      navigate('/cart')
-    } else {
-      navigate('/login', { state: { redirectTo: '/cart' }});
-    }
+    navigate("/cart");
   }
 
   const handleLogout = () => {
