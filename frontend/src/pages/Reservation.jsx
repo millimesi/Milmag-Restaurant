@@ -5,6 +5,8 @@ import NavBar from "../components/Navbar";
 import "./reservations.css";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 function Reservation() {
   const [date, setDate] = useState(new Date());
@@ -108,13 +110,21 @@ function Reservation() {
     setShowPopover((prev) => !prev);
   };
 
-  const handleCancelReservation = async () => {
+  const handleCancelReservationInPopover = async () => {
     setSelectedTable("");
     setSelectedTimeSlot("");
     setSpecialRequest("");
     setFlashMessage("");
     setDate(new Date());
     togglePopover();
+  };
+
+  const handleCancelReservation = async () => {
+    setSelectedTable("");
+    setSelectedTimeSlot("");
+    setSpecialRequest("");
+    setFlashMessage("");
+    setDate(new Date());
   };
 
   return (
@@ -177,6 +187,13 @@ function Reservation() {
         {/* popover Content */}
         {showPopover && (
           <div className="makeReservation">
+            <div className="closeIcon">
+              <FontAwesomeIcon
+                icon={faTimes}
+                onClick={handleCancelReservationInPopover}
+                className="closePopove"
+              />
+            </div>
             <label htmlFor="date">Select Date:</label>
             <DatePicker
               filterDate={filterDates}
@@ -238,7 +255,9 @@ function Reservation() {
                   placeholder="Add any special request here..."
                 />
                 <button onClick={togglePopover}>Continue</button>
-                <button onClick={handleCancelReservation}>Cancel</button>
+                <button onClick={handleCancelReservationInPopover}>
+                  Cancel
+                </button>
               </div>
             )}
           </div>
