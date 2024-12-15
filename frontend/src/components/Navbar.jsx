@@ -32,6 +32,7 @@ const NavBar = () => {
     if (isAuthenticated) {
       navigate("/reservation");
     } else {
+      console.log("Navigating to login with redirectTo: /reservation"); // Add this line
       navigate("/login", { state: { redirectTo: "/reservation" } });
     }
   };

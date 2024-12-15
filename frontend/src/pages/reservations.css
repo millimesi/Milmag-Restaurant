@@ -1,3 +1,10 @@
+.reservationContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
 .reservation h1 {
   text-align: center;
 }
@@ -9,7 +16,6 @@
 
 .reservation-selector {
   width: 70vw;
-  margin-left: 20%;
   text-align: left;
   background-color: white;
   /* border-radius: 10px; */
@@ -99,6 +105,9 @@
 .closeIcon {
   display: flex;
   justify-content: flex-end;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
 }
 /* styling PoPover Elements */
 .closePopove {
@@ -108,5 +117,74 @@
 }
 
 .closePopove:hover {
+  color: rgb(129, 22, 22);
+}
+
+.makeReservation .popoverHead {
+  margin-top: 5px;
+}
+
+.datePickerForm {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px 0;
+}
+
+.datePickerForm input {
+  border: 1px solid rgb(129, 22, 22);
+  padding: 2px;
+}
+
+.seeSpotsButton {
+  display: flex;
+  justify-content: center;
+}
+.spots {
+  margin: 15px 0;
+}
+.gridContainerOfSlots {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-around;
+}
+
+.slot {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid rgb(129, 22, 22);
+  cursor: pointer;
+}
+
+.specialRequestForm {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px 0;
+  align-items: center;
+}
+
+.specialRequestInput {
+  width: 60%;
+  padding: 2px;
+  border: 1px solid rgb(129, 22, 22);
+}
+
+.continueCloseButtons {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.continueCloseButtons button {
+  width: 30%;
+  margin-right: 5%;
+}
+
+.reservationSummary {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+.reservationSummary strong {
   color: rgb(129, 22, 22);
 }

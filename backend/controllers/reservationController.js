@@ -212,7 +212,12 @@ export const seeMyReservations = async (req, res) => {
     const { userId } = req.body;
 
     const reservationList = await Reservation.findAll({
-      where: { userId: userId },
+      where: {
+        userId: userId,
+        status: {
+          [Op.or]: ["confirmed", "pending"],
+        },
+      },
       raw: true,
     });
 
@@ -243,14 +248,12 @@ export const cancelReservation = async (req, res) => {
       });
     }
 
-    const reservationList = await Reservation.update(
+    await Reservation.update(
       {
         status: "canceled",
       },
       { where: { id: reservationId } }
     );
-
-    console.log(reservationList);
 
     return res.status(200).json({
       message: "Reservation is successfully canceled",
