@@ -49,9 +49,14 @@ export const availableDateTime = (req, res) => {
 
 export const seeAvailableSpots = async (req, res) => {
   try {
-    const { user_id, reservationDate } = req.body;
-
+    const { userId, reservationDate } = req.body;
     // The user_id validitiy should be checked by the authenticate mildleware
+
+    if (!(userId || reservationDate)) {
+      return res
+        .status(400)
+        .json({ error: "Include userId and ReservationDate to your reques." });
+    }
 
     // Validate the reservationData if its today or in the future
     const today = new Date().toISOString().split("T")[0];
@@ -71,9 +76,6 @@ export const seeAvailableSpots = async (req, res) => {
       where: { reservationDate: formatedReservationDate },
       raw: true,
     });
-
-    console.log(reservations);
-
     // Get reservation tables
     const reservationTables = await ReservationTable.findAll({
       attributes: ["id"],
@@ -83,8 +85,6 @@ export const seeAvailableSpots = async (req, res) => {
     const reservationTablesList = reservationTables.map(
       (reservationTable) => reservationTable.id
     );
-    console.log(reservationTablesList);
-
     // Build available reservations list
     const availableReservations = reservationTablesList.map(
       (ReservationTableId) => {
@@ -191,7 +191,7 @@ export const makeReservation = async (req, res) => {
     const newResrvation = {
       reservationDate: formatedReservationDate,
       timeSlot: timeSlot,
-      specialRequest: specialRequest,
+      specialRequest: specialRequest || "",
       status: status,
       reservationPayment,
       userId: userId,
@@ -212,7 +212,12 @@ export const seeMyReservations = async (req, res) => {
     const { userId } = req.body;
 
     const reservationList = await Reservation.findAll({
-      where: { userId: userId },
+      where: {
+        userId: userId,
+        status: {
+          [Op.or]: ["confirmed", "pending"],
+        },
+      },
       raw: true,
     });
 
@@ -237,22 +242,18 @@ export const cancelReservation = async (req, res) => {
     });
 
     if (!reservation) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "A reservation with this id is not found or it is canceled or completed",
-        });
+      return res.status(400).json({
+        error:
+          "A reservation with this id is not found or it is canceled or completed",
+      });
     }
 
-    const reservationList = await Reservation.update(
+    await Reservation.update(
       {
         status: "canceled",
       },
       { where: { id: reservationId } }
     );
-
-    console.log(reservationList);
 
     return res.status(200).json({
       message: "Reservation is successfully canceled",
