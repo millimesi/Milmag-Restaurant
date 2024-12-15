@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import "../stylesheets/Cart.css";
 import "../stylesheets/errorSuccess.css";
@@ -8,13 +8,12 @@ import { MdDelete } from "react-icons/md";
 import NavBar from '../components/Navbar.jsx';
 import { FaCartShopping } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Cart = () => {
   const { state: cartItems, dispatch } = useContext(cartContext);
   const navigate = useNavigate();
   const confirm = useConfirm();
-  const [ error, setError ] = useState(null);
-  const [ success, setSuccess ] = useState(null);
 
   // Functions to handle quantity updates, using `dispatch`
   const incrementQuantity = (item) => {
@@ -30,13 +29,9 @@ const Cart = () => {
   const handleDelete = async(item) => {
     // console.log("Item", item);
     if (!item) {
-      setError("Item is undefined");
-      setTimeout(() => setError(null), 3000); // Clear error
+      toast.error("Item is undefined");
       return;
     }
-
-    setSuccess(null);
-    setError(null);
 
     try {
       await confirm({
@@ -48,14 +43,14 @@ const Cart = () => {
       // If "Delete now" is clicked
       dispatch({ type:"DELETE_ITEM", payload:item.id }); // , payload:item.id
 
-      // Show success message
-      setSuccess("Deleted successfully!");
-      setTimeout(() => setSuccess(""), 3000); // Clear message after 3 seconds
+      toast.success(`${item.name} deleted successfully!`);
+
     } catch (error) {
       if (error === "cancel") {
         console.log("User choose to keep Item");
       } else {
         console.log("Error in handleDelete: ", error);
+        // toast.error("Something went wrong!");
       }
     }
   }
@@ -70,24 +65,32 @@ const Cart = () => {
     }
   };
 
+  // Authentication check
+  const isAuthenticated = !!localStorage.getItem("token");
+
+  const handleProceedToCheckout = () => {
+    if (isAuthenticated) {
+      navigate("/cartCheckout");
+    } else {
+      navigate("/login");
+    }
+  }
+
   // Total Menu Fee of Item
-  const menuFee = cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  // const menuFee = cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
 
   // Total Amount
-  const totalAmount = menuFee; // TO BE REVIEWED.
+  // const totalAmount = menuFee; // TO BE REVIEWED.
 
   return (
     <>
       <NavBar />
+      <ToastContainer position="top-right" autoClose={3000} closeOnClick={true} pauseOnHover={true} draggable={true} />
       <h2 className='cart-details'>Cart Details</h2>
 
       {/* Conditional rendering based on cartItems length */}
       {cartItems.length === 0 ? (
         <div className='emptyCart'>
-
-          {/* Display error or success messages */}
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">{success}</div>}
 
           <FaCartShopping className='emptyCartIcon'/>
           <p className="emptyCartMessage">Your Cart is Empty</p>
@@ -99,10 +102,6 @@ const Cart = () => {
       ) : (
         <>
           <table className="cart-table">
-
-          {/* Display error or success messages */}
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">{success}</div>}
 
           <thead>
             <tr>
@@ -142,7 +141,7 @@ const Cart = () => {
           </tbody>
           </table>
 
-          <div className='summary-title'>BILL SUMMARY</div>
+          {/* <div className='summary-title'>BILL SUMMARY</div>
           <table className="summary-table">
             <thead>
               <tr>
@@ -172,10 +171,10 @@ const Cart = () => {
                 <td>${totalAmount.toFixed(2)}</td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
 
           <div>
-            <button className='checkoutButton'><strong>PROCEED TO CHECKOUT</strong></button>
+            <button className='checkoutButton' onClick={ handleProceedToCheckout }><strong>PROCEED TO CHECKOUT</strong></button>
           </div>
         </>
       )}

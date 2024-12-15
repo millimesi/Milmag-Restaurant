@@ -1,20 +1,16 @@
-import React from "react";
-import {
-  Route,
-  Navigate,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-import Home from "../pages/home";
-import Menu from "../pages/menu";
-import MenuCategoryDynamic from "../pages/MenuCategoryDynamic";
-import NotFoundPage from "../components/NotFoundPage.js";
-import MenuDetails, { menuLoader } from "../pages/MenuDetails";
-import Cart from "../pages/cart.jsx";
-import Register from "../pages/register.jsx";
-import Login from "../pages/login.jsx";
-import ForgotPassword from "../pages/forgotPassword.jsx";
-import PasswordReset from "../pages/passwordReset.jsx";
+import React from 'react';
+import { Route, Navigate, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import Home from '../pages/home';
+import Menu from '../pages/menu';
+import MenuCategoryDynamic from '../pages/MenuCategoryDynamic';
+import NotFoundPage from '../components/NotFoundPage.js';
+import MenuDetails, { menuLoader } from '../pages/MenuDetails';
+import Cart from '../pages/cart.jsx';
+import Register from '../pages/register.jsx';
+import Login from '../pages/login.jsx';
+import ForgotPassword from '../pages/forgotPassword.jsx';
+import PasswordReset from '../pages/passwordReset.jsx';
+import CartCheckout from '../pages/cartCheckout.jsx';
 import Reservation from "../pages/Reservation.jsx";
 
 const AppRoutes = createBrowserRouter(
@@ -46,6 +42,7 @@ const AppRoutes = createBrowserRouter(
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/passwordReset" element={<PasswordReset />} />
       <Route path="/reservation" element={<Reservation />} />
+      <Route path="/cartCheckout" element={<CartCheckout />} />
     </>
   )
 );

@@ -48,7 +48,7 @@
   margin-left: 10px !important;
 }
 
-.summary-title {
+/* .summary-title {
   text-align: center !important;
   background-color: rgb(128, 0, 0) !important;
   color: #f9f9f9 !important;
@@ -56,7 +56,6 @@
   padding: 0em 0em 0.1em 0em !important;
   justify-content: center !important;
   margin: auto !important;
-  /* margin-left: 5em !important; */
   margin-top: 1.5em !important;
   font-weight: bold !important;
   font-size: 1.2em !important;
@@ -65,9 +64,7 @@
 .summary-table {
   width: 30% !important;
   margin: auto !important;
-  /* margin-left: 10em !important; */
   border-collapse: collapse !important;
-  /* float: left !important; */
 }
 
 .summary-table th,
@@ -81,7 +78,7 @@
   background-color: rgb(128, 0, 0) !important;
   color: #f9f9f9 !important;
   font-weight: bold !important;
-}
+} */
 
 .checkoutButton {
   display: block !important;

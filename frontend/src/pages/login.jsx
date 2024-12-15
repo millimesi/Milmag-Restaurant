@@ -7,21 +7,18 @@ import "../stylesheets/login.css";
 import "../stylesheets/errorSuccess.css";
 import Logoo from "../components/Logoo";
 import { LiaEyeSlashSolid, LiaEyeSolid } from "react-icons/lia";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
+
+  const [ loading, setLoading ] = useState(false);
+  const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Retrieve success message from state
-  const successMessage = location.state?.success;
 
   axios.defaults.withCredentials = true;
 
@@ -30,71 +27,50 @@ const Login = () => {
 
     // Basic validation
     if (!values.email || !values.password) {
-      setError("All fields are required.");
-      // setLoading(false);
+      toast.error("All fields are required.")
       return;
     }
 
     // Email test
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(values.email)) {
-      setError(
-        "Invalid email format. Example of valid email format: user@example.com"
-      );
+      toast.error("Invalid email format. Example of valid email format: user@example.com");
       return;
     }
 
-    setLoading(true);
-    setError(null); // Reset error before new login attempt
-    setSuccess(null); // Reset success message
     try {
       const response = await axios.post(`/api/v1/users/login`, values); // Post email and password. It uses proxy in package.json.
       // console.log("response.data.status", response.data.status);
-      // console.log("Response: ", response);
-      // console.log("Response.data: ", response.data);
-
-      // if (response.data.message === "You are already logged in") {
-      // Checks if user is already logged in
-      // setSuccess("You are already logged in");
-
-      // Redirect to the specified page or to '/ by default
-      // const redirectToo = location.state?.redirectTo || "/";
-      // navigate(redirectToo);
-      // navigate("/");
-      // } else if (response.data.status === "success") {
-      // } else
+      // console.log("Response in login frontend: ", response);
+      // console.log("Response.data in login frontend: ", response.data);
       if (response.status === 200) {
-        setSuccess("Login Successful");
         // Store token in local storage to persist login status
         localStorage.setItem("token", response.data.token);
+        // toast.success("Login Successful");
 
-        // Store user Information in local Storage
-        console.log(response.data);
-        localStorage.setItem("user", JSON.stringify(response.data.user));
+        toast.success("Login Successful", { // Need to still work on this, user should get notified synchronous to navigating to cart
+          autoClose: 1000,
+          onClose: () => {
+            const redirectTo = location.state?.redirectTo || "/cart";
+            navigate(redirectTo);
+          },
+        });
 
-        // Redirect to the specified page or to '/' by default
-        console.log("Redirecting to:", location.state?.redirectTo); // Add this line to log the redirectTo state
-        const redirectTo = location.state?.redirectTo || "/";
-        navigate(redirectTo);
+        // Redirect to the specified page or to '/cart' by default
+        // const redirectTo = location.state?.redirectTo || "/cart";
+        // navigate(redirectTo);
+        // toast.success("Login Successful");
       } else {
-        setError(response.data.message || "Login Attempt Failed"); // Show error message
+        toast.error(response.data.message || "Login Attempt Failed");
       }
-
-      // Clear success message after 3 seconds
-      const timer = setTimeout(() => {
-        setSuccess(null);
-      }, 3000);
-
-      // Cleanup timeout on unmount
-      return () => clearTimeout(timer);
     } catch (error) {
       console.error("Fetch error in login:", error);
 
       // Capture error details for specific client feedback
       if (error.response && error.response.data) {
-        setError(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setError("An error occurred. Please try again later.");
+        toast.error("An error occurred. Please try again later.");
       }
     } finally {
       setLoading(false); // This hides spinner after login attempt
@@ -108,27 +84,16 @@ const Login = () => {
   return (
     <div className="">
       <NavBar />
-      <div className="loginContainer">
-        <div className="loginDiv">
+      <ToastContainer position="top-right" autoClose={3000} closeOnClick={true} pauseOnHover={true} draggable={true} />
+      <div className='loginContainer'>
+        <div className='loginDiv'>
           <Logoo />
           <div className="loginHeading">
             <strong>Log into your account.</strong>
           </div>
-
-          {/* Display success message from navigation */}
-          {successMessage && (
-            <div className="success-message">{successMessage}</div>
-          )}
-
-          <form action="" onSubmit={handleSubmit} className="">
-            <div className="">
-              {/* Display error or success messages */}
-              {error && <div className="error-message">{error}</div>}
-              {success && <div className="success-message">{success}</div>}
-
-              <label htmlFor="email" className="loginLabel">
-                <strong>Email: </strong>
-              </label>
+          <form action="" onSubmit={handleSubmit} className=''>
+            <div className=''>
+              <label htmlFor="email" className='loginLabel'><strong>Email: </strong></label>
               <input
                 type="email"
                 placeholder="Enter email"

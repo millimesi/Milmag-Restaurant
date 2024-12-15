@@ -5,6 +5,7 @@ import { FaDollarSign, FaPlusCircle, FaMinusCircle, } from 'react-icons/fa'; //F
 import '../stylesheets/customMenuDetails.css';
 import { cartContext } from '../context/context.jsx';
 import '../stylesheets/errorSuccess.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const MenuDetails = () => {
   const menu = useLoaderData();
@@ -13,8 +14,6 @@ const MenuDetails = () => {
 
   // Access cart state from context
   const { state: cartItems, dispatch } = useContext(cartContext);
-  const [ error, setError ] = useState(null);
-  const [ success, setSuccess ] = useState(null);
 
   // Check if item is in cart and set initial quantity accordingly
   const cartItem = cartItems.find(item => item.id === menu.id);
@@ -50,74 +49,66 @@ const MenuDetails = () => {
   // Add item to cart with validation
   const handleAddToCart = () => {
     if (quantity < 1) {
-      setError("Please indicate a quantity before adding to cart");
-      setSuccess(null);
+      toast.error("Please indicate a quantity before adding to cart");
       return;
     } else {
-      setError(""); // Clear error if quantity is valid
       // Dispatch ADD action with the selected quantity
       dispatch({
         type: "ADD",
         payload: { item: menu, quantity },
       });
-      setSuccess("Item added to cart successfully!") // Sets success message
+      toast.success("Item added to cart successfully!");
     }
-
-    // Clears success message after 3 secs
-    setTimeout(() => {
-      setSuccess("");
-    }, 3000);
   };
 
   return (
-    <div className="container icon-container">
-      {/* <section className="row">
-        <div className="col-12 back-button-wrapper">
-          <button onClick={handleBackClick} className="btn btn-outline-light back-to-menu">
-            <FaArrowLeft className="icon-left" /> Back to Menu
-          </button>
-        </div>
-      </section> */}
-      <h1 className='mb-5 text-center menuName'>{menu.name}</h1>
-      <div className='row'>
-        <div className='col-sm-6 mb-5'>
-            {menuImagePath ? (
-              <img src={menuImagePath} className="mx-auto d-block rounded" alt={menu.name} width="450" height="400"/>
-            ) : (
-              <div>No image available</div> // Placeholder if image is not available
-            )}
-        </div>
-        <div className='col-sm-6'>
-          <div className="">
-              <p className='fs-4 text-start mb-3'> <strong>Description: </strong> {menu.fulldescription}</p>
+    <>
+      <ToastContainer position="top-right" autoClose={3000} closeOnClick={true} pauseOnHover={true} draggable={true}/>
+      <div className="container icon-container">
+        {/* <section className="row">
+          <div className="col-12 back-button-wrapper">
+            <button onClick={handleBackClick} className="btn btn-outline-light back-to-menu">
+              <FaArrowLeft className="icon-left" /> Back to Menu
+            </button>
           </div>
-          <div className="text-start fs-4 list-inline">
-            <p><strong>Dietary Information: </strong> {menu.dietary_info || 'No dietary information available.'}</p>
+        </section> */}
+        <h1 className='mb-5 text-center menuName'>{menu.name}</h1>
+        <div className='row'>
+          <div className='col-sm-6 mb-5'>
+              {menuImagePath ? (
+                <img src={menuImagePath} className="mx-auto d-block rounded" alt={menu.name} width="450" height="400"/>
+              ) : (
+                <div>No image available</div> // Placeholder if image is not available
+              )}
           </div>
-          <div className='text-start'> <strong className='fs-4 pe-2'>Price:</strong>
-            <span className='fs-4 p-0 m-0'>
-              <FaDollarSign className='fs-4 dollar p-0 m-0'/> {menu.price}
-            </span>
-          </div>
-          <div className='text-center my-3'>
-            <div className='d-flex justify-content-center align-items-center mt-5'>
-              <FaMinusCircle className='mx-2 minusPlus' onClick={decrementQuantity}/>
-              <span className='mx-2 quantityValue'>{quantity}</span>
-              <FaPlusCircle className='mx-2 minusPlus' onClick={incrementQuantity}/>
+          <div className='col-sm-6'>
+            <div className="">
+                <p className='fs-4 text-start mb-3'> <strong>Description: </strong> {menu.fulldescription}</p>
             </div>
-          </div>
+            <div className="text-start fs-4 list-inline">
+              <p><strong>Dietary Information: </strong> {menu.dietary_info || 'No dietary information available.'}</p>
+            </div>
+            <div className='text-start'> <strong className='fs-4 pe-2'>Price:</strong>
+              <span className='fs-4 p-0 m-0'>
+                <FaDollarSign className='fs-4 dollar p-0 m-0'/> {menu.price}
+              </span>
+            </div>
+            <div className='text-center my-3'>
+              <div className='d-flex justify-content-center align-items-center mt-5'>
+                <FaMinusCircle className='mx-2 minusPlus' onClick={decrementQuantity}/>
+                <span className='mx-2 quantityValue'>{quantity}</span>
+                <FaPlusCircle className='mx-2 minusPlus' onClick={incrementQuantity}/>
+              </div>
+            </div>
 
-          {/* Displays error and success messages */}
-          { error && <h1 className='error-message-MenuDetails'>{error}</h1> }
-          { success && <h1 className='success-message'>{success}</h1> }
-
-          <div className='d-flex justify-content-center align-items-center mt-4'>
-            <button className='quantityButton mx-3' onClick={handleBackClick}><strong>CANCEL</strong></button>
-            <button className='quantityButton mx-3' onClick={handleAddToCart}><strong>ADD TO CART</strong></button>
+            <div className='d-flex justify-content-center align-items-center mt-4'>
+              <button className='quantityButton mx-3' onClick={handleBackClick}><strong>CANCEL</strong></button>
+              <button className='quantityButton mx-3' onClick={handleAddToCart}><strong>ADD TO CART</strong></button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
