@@ -26,14 +26,14 @@ function Reservation() {
       try {
         // Get all avaialble reservations
         const response = await axios.get(
-          "http://localhost:8080/api/v1/reservation/tables"
+          "http://localhost:8000/api/v1/reservation/tables"
         );
         setTables(response.data.tables);
 
         // Get Current User reservations
 
         const previousReservationsRes = await axios.post(
-          "http://localhost:8080/api/v1/reservation/seeMyReservations",
+          "http://localhost:8000/api/v1/reservation/seeMyReservations",
           {
             userId: JSON.parse(localStorage.getItem("user")).id,
           }
@@ -65,7 +65,7 @@ function Reservation() {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/reservation/seeAvailableSpots",
+        "http://localhost:8000/api/v1/reservation/seeAvailableSpots",
         requestData
       );
       console.log(response.data);
@@ -87,7 +87,7 @@ function Reservation() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/reservation/makeReservation",
+        "http://localhost:8000/api/v1/reservation/makeReservation",
         requestData
       );
       console.log(response.data);
@@ -134,7 +134,7 @@ function Reservation() {
     };
     try {
       const response = await axios.put(
-        "http://localhost:8080/api/v1/reservation/cancelReservation",
+        "http://localhost:8000/api/v1/reservation/cancelReservation",
         request
       );
       console.log(response.data);
@@ -306,12 +306,14 @@ function Reservation() {
             <div>
               <p className="reservationSummary">
                 <strong>Reservation Summary: </strong>
-                Date: {new Date(date).toLocaleDateString("en-CA")}, Table Number:{" "}
-                {selectedTable}, Time Slot:
+                Date: {new Date(date).toLocaleDateString("en-CA")}, Table
+                Number: {selectedTable}, Time Slot:
                 {selectedTimeSlot}, Special Request: {specialRequest}
               </p>
               <div className="continueCloseButtons">
-                <button onClick={handleMakeReservation}>Make Reservation</button>
+                <button onClick={handleMakeReservation}>
+                  Make Reservation
+                </button>
                 <button onClick={handleCancelReservation}>Cancel</button>
               </div>
               {flashMessage && (
@@ -326,8 +328,8 @@ function Reservation() {
             </div>
           )}
         </section>
-            </div>
       </div>
+    </div>
   );
 }
 
