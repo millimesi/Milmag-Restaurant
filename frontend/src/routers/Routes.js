@@ -12,6 +12,9 @@ import ForgotPassword from '../pages/forgotPassword.jsx';
 import PasswordReset from '../pages/passwordReset.jsx';
 import CartCheckout from '../pages/cartCheckout.jsx';
 import Reservation from "../pages/Reservation.jsx";
+// import Payment from '../pages/stripePayment.jsx';
+import PaymentSuccess from '../pages/paymentSuccess.js';
+import PaymentError from '../pages/paymentError.jsx';
 
 const AppRoutes = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +46,9 @@ const AppRoutes = createBrowserRouter(
       <Route path="/passwordReset" element={<PasswordReset />} />
       <Route path="/reservation" element={<Reservation />} />
       <Route path="/cartCheckout" element={<CartCheckout />} />
+      {/* <Route path="/payment" element={<Payment />}/> */}
+      <Route path="/paymentSuccess" element={<PaymentSuccess />} />
+      <Route path="/paymentError" element={<PaymentError />} />
     </>
   )
 );

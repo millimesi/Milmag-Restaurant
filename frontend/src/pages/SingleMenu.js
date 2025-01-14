@@ -29,6 +29,10 @@ const SingleMenu = ({ item }) => {
     if (quantity > 0) setquantity(quantity - 1)
   };
 
+  // const saveCartToLocalStorage = (cartItems) => {
+  //   localStorage.setItem('cart', JSON.stringify(cartItems));
+  // }
+
   // Add item to cart with validation
   const addToCart = () => {
     if (quantity < 1 ) {
@@ -42,6 +46,12 @@ const SingleMenu = ({ item }) => {
         type: 'ADD',
         payload: { item, quantity }
       });
+
+      // Add items to local storage
+      // const currentCart = JSON.parse(localStorage.getItem('cart')) || []; // Retrieve the current cart from localStorage or initialize as an empty array
+      // currentCart.push({ item, quantity }); // Add the new item to the current cart
+      // localStorage.setItem('cart', JSON.stringify(currentCart)); // Save the updated cart back to localStorage
+
       toast.success("Item Added to cart successfully!");
       // setSuccess("Item Added to cart successfully!"); // Sets success message
     };

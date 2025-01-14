@@ -72,7 +72,7 @@ const Cart = () => {
     if (isAuthenticated) {
       navigate("/cartCheckout");
     } else {
-      navigate("/login");
+      navigate("/login", { state: { redirectTo: "/cartCheckout" }});
     }
   }
 
@@ -140,38 +140,6 @@ const Cart = () => {
             })}
           </tbody>
           </table>
-
-          {/* <div className='summary-title'>BILL SUMMARY</div>
-          <table className="summary-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Menu Fee</td>
-                <td>${menuFee.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td>Delivery Fee</td>
-                <td>$0.00</td>
-              </tr>
-              <tr>
-                <td>Tax</td>
-                <td>$0.00</td>
-              </tr>
-              <tr>
-                <td>Discount</td>
-                <td>$0.00</td>
-              </tr>
-              <tr>
-                <td>Total Fee</td>
-                <td>${totalAmount.toFixed(2)}</td>
-              </tr>
-            </tbody>
-          </table> */}
 
           <div>
             <button className='checkoutButton' onClick={ handleProceedToCheckout }><strong>PROCEED TO CHECKOUT</strong></button>
