@@ -31,7 +31,8 @@
     "password-validator": "^5.3.0",
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "stripe": "^17.4.0"
   },
   "devDependencies": {
     "chai": "^4.5.0",
